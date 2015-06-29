@@ -26,6 +26,11 @@
 #include <math.h>
 #include <time.h>
 
+unsigned characterClass;
+unsigned classCount = 4;
+char* classNames[4] = {"Theif", "Barbarian", "Mage", "Jester"};
+
+
 void rogueMain() {
 	previousGameSeed = 0;
 	initializeBrogueSaveLocation();
@@ -123,8 +128,10 @@ void benchmark() {
 }
 
 void welcome() {
-    char buf[DCOLS*3], buf2[DCOLS*3];
-	message("Hello and welcome, adventurer, to the Dungeons of Doom!", false);
+    char buf[DCOLS*3], buf2[DCOLS*3], buf3[DCOLS*3];
+    sprintf(buf3, "Hello and welcome, young %s, to the Dungeons of Doom!", classNames[characterClass]);
+    message(buf3, false);
+	  
     strcpy(buf, "Retrieve the ");
     encodeMessageColor(buf, strlen(buf), &itemMessageColor);
     strcat(buf, "Amulet of Yendor");
@@ -221,7 +228,7 @@ void initializeRogue(unsigned long seed) {
 	
 	playingback = rogue.playbackMode; // the only three animals that need to go on the ark
 	playbackPaused = rogue.playbackPaused;
-	playbackFF = rogue.playbackFastForward;
+	playbackFF = rogue.playbackFastForward;DEBUG
 	memset((void *) &rogue, 0, sizeof( playerCharacter )); // the flood
 	rogue.playbackMode = playingback;
 	rogue.playbackPaused = playbackPaused;
@@ -421,29 +428,217 @@ void initializeRogue(unsigned long seed) {
 	= rogue.stealthBonus = rogue.transference = rogue.wisdomBonus = rogue.reaping = 0;
 	rogue.lightMultiplier = 1;
 	
+	//Class code
+	characterClass = rogue.seed % classCount;
+	unsigned classRandValue = rogue.seed % 3;
+	
+	printf("Seed %ld Class %d\n", rogue.seed, characterClass); 
+	
+	//All characters
 	theItem = generateItem(FOOD, RATION);
 	theItem = addItemToPack(theItem);
 	
-	theItem = generateItem(WEAPON, DAGGER);
-	theItem->enchant1 = theItem->enchant2 = 0;
-	theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
-	identify(theItem);
-	theItem = addItemToPack(theItem);
-	equipItem(theItem, false);
+	switch(characterClass) {
+		case 0: //Theif
+		  player.info.movementSpeed -= 10;
+		  player.info.attackSpeed -= 8;
+		  player.status[STATUS_NUTRITION] = player.maxStatus[STATUS_NUTRITION] = STOMACH_SIZE + 10; //Don't know if this is permanent.
+		  
+	    theItem = generateItem(WEAPON, DAGGER);
+	    theItem->enchant1 = theItem->enchant2 = 0;
+	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	    identify(theItem);
+	    theItem = addItemToPack(theItem);
+	    equipItem(theItem, false);
 	
-	theItem = generateItem(WEAPON, DART);
-	theItem->enchant1 = theItem->enchant2 = 0;
-	theItem->quantity = 15;
-	theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
-	identify(theItem);
-	theItem = addItemToPack(theItem);
+	    theItem = generateItem(WEAPON, DART);
+	    theItem->enchant1 = theItem->enchant2 = 0;
+	    theItem->quantity = 25;
+	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	    identify(theItem);
+	    theItem = addItemToPack(theItem);
+	    
+	    switch (classRandValue){
+	      case 0:
+	      	theItem = generateItem(RING, RING_CLAIRVOYANCE);
+	        theItem->enchant1 = 1; //Need to give rings some enchantment.
+	        theItem->enchant2 = 0;
+	        theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	        identify(theItem);
+	        theItem = addItemToPack(theItem);	      
+	      break;
+	      case 1:
+	      	theItem = generateItem(RING, RING_STEALTH);
+	        theItem->enchant1 = 1;
+	        theItem->enchant2 = 0;
+	        theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	        identify(theItem);
+	        theItem = addItemToPack(theItem);
+	      break;
+	      case 2:
+	      	theItem = generateItem(CHARM, CHARM_INVISIBILITY);
+	        theItem->enchant1 = 0;
+	        theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	        identify(theItem);
+	        theItem = addItemToPack(theItem);
+	      break;
+	    }
+		break;
+	  case 1: //Barbarian
+			player.currentHP = player.info.maxHP += 5;
+			
+			rogue.strength += 2;
+			
+			
+	    theItem = generateItem(WEAPON, SWORD);
+	    theItem->enchant1 = theItem->enchant2 = 0;
+	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	    theItem->quantity = 1;
+	    identify(theItem);
+	    theItem = addItemToPack(theItem);
+	    equipItem(theItem, false);
 	
+	  break;
+	  case 2: //Conjurer
+	    theItem = generateItem(WEAPON, INCENDIARY_DART);
+	    theItem->enchant1 = theItem->enchant2 = 0;
+	    theItem->quantity = 10;
+	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	    identify(theItem);
+	    theItem = addItemToPack(theItem);
+	    
+	    theItem = generateItem(STAFF, STAFF_LIGHTNING);
+	    theItem->enchant1 = theItem->enchant2 = 0;
+	    theItem->quantity = 1;
+	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	    identify(theItem);
+	    theItem = addItemToPack(theItem);
+	    
+	    theItem = generateItem(POTION, classRandValue == 0 ? POTION_INVISIBILITY : (classRandValue == 1) ? POTION_DARKNESS :POTION_HALLUCINATION);
+	    theItem->enchant1 = theItem->enchant2 = 0;
+	    theItem->quantity = 1;
+	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	    identify(theItem);
+	    theItem = addItemToPack(theItem);
+	    
+	  //Boost enchantment status lengths?
+	  break;
+	  case 3: //Jester
+	    player.status[STATUS_NUTRITION] = player.maxStatus[STATUS_NUTRITION] = STOMACH_SIZE + 10;
+	    
+	    //What Jester doesn't enjoy juggling a few mangos?
+	    theItem = generateItem(FOOD, FRUIT);
+	    theItem = addItemToPack(theItem);
+	    theItem = generateItem(FOOD, FRUIT);
+	    theItem = addItemToPack(theItem);
+	    theItem = generateItem(FOOD, FRUIT);
+	    theItem = addItemToPack(theItem);
+
+	    //A fancy trick for when juggling is insufficient
+	    theItem = generateItem(WEAPON, INCENDIARY_DART);
+	    theItem->enchant1 = theItem->enchant2 = 0;
+	    theItem->quantity = 5;
+	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	    identify(theItem);
+	    theItem = addItemToPack(theItem);
+
+      //And another interesting trick
+      theItem = generateItem(POTION, POTION_CONFUSION);
+	    theItem->enchant1 = theItem->enchant2 = 0;
+	    theItem->quantity = 1;
+	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	    identify(theItem);
+	    theItem = addItemToPack(theItem);
+	    
+	    theItem = generateItem(POTION, POTION_DESCENT);
+	    theItem->enchant1 = theItem->enchant2 = 0;
+	    theItem->quantity = 1;
+	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	    identify(theItem);
+	    theItem = addItemToPack(theItem);
+	    
+	    theItem = generateItem(CHARM, CHARM_TELEPATHY);
+	    theItem->enchant1 = theItem->enchant2 = 0;
+	    theItem->quantity = 1;
+	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	    identify(theItem);
+	    theItem = addItemToPack(theItem);
+	    
+	  break;
+	}
+	
+	//Planned features:  Additional classes
+	/*
+	
+	Scholar: Starts with many items identified.
+	Soldier: Starts well armed
+	Accursed One: Starts with high stats but cursed armor.
+	
+	Class modifications:
+	
+	Conjurers have positive magical effects last longer
+	Barbarians have mind effects last longer
+	Rings need to be enchanted (or they do nothing).
+	
+	*/
+	
+	/*
+		enum monsterTypes monsterID; // index number for the monsterCatalog
+	char monsterName[COLS];
+	uchar displayChar;
+	const color *foreColor;
+	short maxHP;
+	short defense;
+	short accuracy;
+	randomRange damage;
+	long turnsBetweenRegen;		// turns to wait before regaining 1 HP
+	short movementSpeed;
+	short attackSpeed;
+	enum dungeonFeatureTypes bloodType;
+	enum lightType intrinsicLightType;
+	short DFChance;						// percent chance to spawn the dungeon feature per awake turn
+	enum dungeonFeatureTypes DFType;	// kind of dungeon feature
+    enum boltType bolts[20];
+	unsigned long flags;
+	unsigned long abilityFlags;
+} creatureType;
+  */
+  
+  /*
+  STATUS_DONNING = 0,
+	STATUS_WEAKENED,
+	STATUS_TELEPATHIC,
+	STATUS_HALLUCINATING,
+	STATUS_LEVITATING,
+	STATUS_SLOWED,
+	STATUS_HASTED,
+	STATUS_CONFUSED,
+	STATUS_BURNING,
+	STATUS_PARALYZED,
+	STATUS_POISONED,
+	STATUS_STUCK,
+	STATUS_NAUSEOUS,
+	STATUS_DISCORDANT,
+	STATUS_IMMUNE_TO_FIRE,
+	STATUS_EXPLOSION_IMMUNITY,
+	STATUS_NUTRITION,
+	STATUS_ENTERS_LEVEL_IN,
+	STATUS_MAGICAL_FEAR,
+	STATUS_ENTRANCED,
+	STATUS_DARKNESS,
+	STATUS_LIFESPAN_REMAINING,
+	STATUS_SHIELDED,
+  STATUS_INVISIBLE,
+  STATUS_AGGRAVATING,
+  */
+  
 	theItem = generateItem(ARMOR, LEATHER_ARMOR);
 	theItem->enchant1 = 0;
 	theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
 	identify(theItem);
 	theItem = addItemToPack(theItem);
 	equipItem(theItem, false);
+	
     player.status[STATUS_DONNING] = 0;
     
     recalculateEquipmentBonuses();
