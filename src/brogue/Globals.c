@@ -2333,9 +2333,13 @@ const itemTable weaponTable[NUMBER_WEAPON_KINDS] = {
 	{"axe",					"", "", 10, 550,		15, {7, 9, 1},		true, false, "The blunt iron edge on this axe glints in the darkness. The arc of its swing permits you to attack all adjacent enemies simultaneously."},
 	{"war axe",				"", "", 10, 990,		19, {12, 17, 1},	true, false, "The enormous steel head of this war axe puts considerable heft behind each stroke. The arc of its swing permits you to attack all adjacent enemies simultaneously."},
 
-	{"dart",				"", "",	0,	15,			10,	{2,	4,	1},		true, false, "These simple metal spikes are weighted to fly true and sting their prey with a flick of the wrist."},
+	{"dart",				"", "",	5,	15,			10,	{2,	4,	1},		true, false, "These simple metal spikes are weighted to fly true and sting their prey with a flick of the wrist."},
 	{"incendiary dart",		"", "",	10, 25,			12,	{1,	2,	1},		true, false, "The barbed spike on each of these darts is designed to stick to its target while the compounds strapped to its length explode into flame."},
+	{"poison dart",		"", "",	5, 20,			10,	{1,3, 1},		true, false, "This lightweight spike is coated in a deadly poison, designed to fatally wound a target from afar."},
 	{"javelin",				"", "",	10, 40,			15,	{3, 11, 3},		true, false, "This length of metal is weighted to keep the spike at its tip foremost as it sails through the air."},
+  
+	{"club",				"", "", 5, 20,		13,	{2,	4, 1},		true, false, "A crude club hewn from a single branch of a heavy wood.  The club shows heavy wear, and may break at any moment."},
+	{"crystal sword",				"", "", 5, 1500,		15,	{20, 35, 1},		true, false, "The blade of this crystal sword shimmers in the darkness.  It is surprisingly light for a blade of its size, though the weapon is far from weightless.  You worry that the blade may break with repeated use."},
 };
 
 const itemTable armorTable[NUMBER_ARMOR_KINDS] = {

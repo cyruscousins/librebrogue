@@ -156,6 +156,12 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
 				case WAR_AXE:
 					theItem->flags |= ITEM_ATTACKS_ALL_ADJACENT;
 					break;
+          
+        case CLUB:
+        case CRYSTAL_SWORD:
+          theItem->flags |= ITEM_FRAGILE;
+          break;
+          
 				default:
 					break;
 			}
@@ -186,8 +192,8 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
                     }
                 }
 			}
-			if (itemKind == DART || itemKind == INCENDIARY_DART || itemKind == JAVELIN) {
-				if (itemKind == INCENDIARY_DART) {
+			if (itemKind == DART || itemKind == INCENDIARY_DART || itemKind == POISON_DART || itemKind == JAVELIN) {
+				if (itemKind == INCENDIARY_DART || itemKind == POISON_DART) {
 					theItem->quantity = rand_range(3, 6);
 				} else {
 					theItem->quantity = rand_range(5, 18);
@@ -196,6 +202,11 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
 				theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC); // throwing weapons can't be cursed or runic
 				theItem->enchant1 = 0; // throwing weapons can't be magical
 			}
+      if (itemKind == CLUB) { //Clubs can't be enchanted.
+        theItem->enchant1 = theItem->enchant2 = 0;
+        theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+      }
+
 			theItem->charges = WEAPON_KILLS_TO_AUTO_ID; // kill 20 enemies to auto-identify
 			break;
 			
@@ -5614,7 +5625,10 @@ void throwItem(item *theItem, creature *thrower, short targetLoc[2], short maxDi
                 if ((theItem->category & WEAPON)
                     && theItem->kind != INCENDIARY_DART
                     && hitMonsterWithProjectileWeapon(thrower, monst, theItem)) {
-                    return;
+                  if(theItem->kind == POISON_DART) {
+                    addPoison(monst, 8, 1);
+                  }
+                  return;
                 }
                 break;
             }

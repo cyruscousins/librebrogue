@@ -2064,7 +2064,7 @@ boolean useStairs(short stairDirection) {
               if(rogue.depthLevel % 5 == 0){
                 message("You feel a cold breeze rustle your hair as you delve deeper into the dungeon.", false);
                 char* buf[128];
-                sprintf(buf, "Pausing to reflect upon its origin, you realize that you have reached the %sth level!", rogue.deepestLevel);
+                sprintf(buf, "Pausing to reflect upon its origin, you realize that you have reached the %dth level!", rogue.deepestLevel);
                 message(buf, false);
               } else {
                 message("You delve deeper into the dungeon.", false);

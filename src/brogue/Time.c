@@ -791,8 +791,9 @@ void checkNutrition() {
             if (theItem->category == FOOD) {
                 char buf[30];
                 itemName(theItem, buf, false, true, &itemMessageColor);
-                sprintf(buf, "unable to control your hunger, you eat %s.", buf);
-                messageWithColor(buf, &itemMessageColor, true);
+                char buf2[128];
+                sprintf(buf2, "unable to control your hunger, you eat %s.", buf);
+                messageWithColor(buf2, &itemMessageColor, true);
                 apply(theItem, false);
                 break;
             }

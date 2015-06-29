@@ -1092,6 +1092,31 @@ boolean attack(creature *attacker, creature *defender, boolean lungeAttack) {
                 damage *= 3; // Treble damage for general sneak attacks.
             }
 		}
+    
+    boolean weaponBroke = false;
+    char* weaponName;
+    if(attacker == &player && rogue.weapon && rogue.weapon->flags & ITEM_FRAGILE) {
+      short shatterProb;
+      if(rogue.weapon->enchant1 < 0){
+        shatterProb = 75;
+      } else if(rogue.weapon->kind == CLUB) {
+        shatterProb = 50;
+      } else {
+        shatterProb = 100 * (1 + rogue.weapon->enchant1);
+      }
+      short value = rand_range(0, shatterProb);
+      if(value <= 0){
+        //The weapon broke.
+        weaponBroke = true;
+        weaponName = weaponTable[rogue.weapon->kind].name;
+        player.currentHP = player.currentHP / 2 + 1; //TODO figure out a good semantics for shattered weapon damage.  Perhaps stun as well?
+        
+        //I believe this is correct, as an item is both in the pack and specially equipped.
+        unequipItem(rogue.weapon, true);
+        removeItemFromChain(rogue.weapon, packItems);
+    		deleteItem(rogue.weapon);
+      }
+    }
 		
 		if (defender == &player && rogue.armor && (rogue.armor->flags & ITEM_RUNIC)) {
 			applyArmorRunicEffect(armorRunicString, attacker, &damage, true);
@@ -1112,8 +1137,10 @@ boolean attack(creature *attacker, creature *defender, boolean lungeAttack) {
             }
         }
 		
-		if (damage == 0) {
-			sprintf(explicationClause, " but %s no damage", (attacker == &player ? "do" : "does"));
+    if (weaponBroke) {
+      sprintf(explicationClause, ", but the %s shattered in your face", weaponName);
+    } else if (damage == 0) {
+			sprintf(explicationClause, ", but %s no damage", (attacker == &player ? "do" : "does"));
 			if (attacker == &player) {
 				rogue.disturbed = true;
 			}
@@ -1129,7 +1156,7 @@ boolean attack(creature *attacker, creature *defender, boolean lungeAttack) {
 			sprintf(explicationClause, " while %s dangle%s helplessly",
 					(canSeeMonster(defender) ? "$HESHE" : "it"),
 					(defender == &player ? "" : "s"));
-		}
+		} 
 		resolvePronounEscapes(explicationClause, defender);
 		
 		if ((attacker->info.abilityFlags & MA_POISONS) && damage > 0) {

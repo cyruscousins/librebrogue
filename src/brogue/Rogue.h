@@ -749,7 +749,12 @@ enum weaponKind {
 	
 	DART,
 	INCENDIARY_DART,
+  POISON_DART,
 	JAVELIN,
+  
+  CLUB,
+  CRYSTAL_SWORD,
+  
 	NUMBER_WEAPON_KINDS
 };
 
@@ -1330,8 +1335,10 @@ enum itemFlags {
     ITEM_SNEAK_ATTACK_BONUS = Fl(20),   // dagger
     ITEM_PASS_ATTACKS       = Fl(21),   // flail
     
-	ITEM_KIND_AUTO_ID       = Fl(22),	// the item type will become known when the item is picked up.
-	ITEM_PLAYER_AVOIDS		= Fl(23),	// explore and travel will try to avoid picking the item up
+    ITEM_FRAGILE = Fl(22), //Club, crystal sword.
+    
+	ITEM_KIND_AUTO_ID       = Fl(23),	// the item type will become known when the item is picked up.
+	ITEM_PLAYER_AVOIDS		= Fl(24),	// explore and travel will try to avoid picking the item up
 };
 
 #define KEY_ID_MAXIMUM	20
