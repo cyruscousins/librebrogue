@@ -2058,10 +2058,22 @@ boolean useStairs(short stairDirection) {
             //copyDisplayBuffer(fromBuf, displayBuffer);
             rogue.cursorLoc[0] = rogue.cursorLoc[1] = -1;
             rogue.depthLevel++;
-            message("You descend.", false);
             startLevel(rogue.depthLevel - 1, stairDirection);
             if (rogue.depthLevel > rogue.deepestLevel) {
-                rogue.deepestLevel = rogue.depthLevel;
+              rogue.deepestLevel = rogue.depthLevel;
+              if(rogue.depthLevel % 5 == 0){
+                message("You feel a cold breeze rustle your hair as you delve deeper into the dungeon.", false);
+                char* buf[128];
+                sprintf(buf, "Pausing to reflect upon its origin, you realize that you have reached the %sth level!", rogue.deepestLevel);
+                message(buf, false);
+              } else {
+                message("You delve deeper into the dungeon.", false);
+              }
+              
+              //TODO Better flavor text generation: Use some natural language techniques and/or be more aware of surroundings!
+               
+            } else {
+              message("You descend.", false);
             }
             //copyDisplayBuffer(toBuf, displayBuffer);
             //irisFadeBetweenBuffers(fromBuf, toBuf, mapToWindowX(player.xLoc), mapToWindowY(player.yLoc), 10, false);

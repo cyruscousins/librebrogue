@@ -908,6 +908,7 @@ enum scrollKind {
 enum monsterTypes {
 	MK_YOU,
 	MK_RAT,
+	MK_PLAGUE_RAT,
 	MK_KOBOLD,
 	MK_JACKAL,
 	MK_EEL,
@@ -984,7 +985,7 @@ enum monsterTypes {
 
 #define NUMBER_MUTATORS             8
 
-#define	NUMBER_HORDES				168
+#define	NUMBER_HORDES				169
 
 #define MONSTER_CLASS_COUNT         13
 

@@ -1551,6 +1551,7 @@ creatureType monsterCatalog[NUMBER_MONSTER_KINDS] = {
 		(MONST_MALE | MONST_FEMALE)},
 	
 	{0, "rat",			'r',	&gray,			6,		0,		80,		{1, 3, 1},		20,	100,	100,	DF_RED_BLOOD,	0,		1,		DF_URINE,       {0}},
+  {0, "plague rat",			'r',	&darkGreen,			3,		0,		75,		{1, 3, 1},		20,	100,	100,	DF_RED_BLOOD,	0,		1,		DF_URINE,       {0}, (0), (MA_CAUSES_WEAKNESS | MA_POISONS)},
 	{0, "kobold",		'k',	&goblinColor,	7,		0,		80,		{1, 4, 1},		20,	100,	100,	DF_RED_BLOOD,	0,		0,		0,              {0}},
 	{0,	"jackal",		'j',	&jackalColor,	8,		0,		70,		{2, 4, 1},		20,	50,		100,	DF_RED_BLOOD,	0,		1,		DF_URINE,              {0}},
 	{0,	"eel",			'e',	&eelColor,		18,		27,		100,	{3, 7, 2},		5,	50,		100,	0,              0,		0,		0,              {0},
@@ -1697,7 +1698,10 @@ const monsterWords monsterText[NUMBER_MONSTER_KINDS] = {
 		{"hit", {0}}},
 	{"The rat is a scavenger of the shallows, perpetually in search of decaying animal matter.",
 		"gnawing at", "Eating",
-		{"scratches", "bites", {0}}},
+		{"scratches", "bites", "crawls over", {0}}},
+  {"The plague rat is a sickening specimin, in the process of succumbing to whatever foulness lies fallow in this loathesome place.",
+    "gnawing at", "Eating",
+    {"scratches", "bites", {0}}},
 	{"The kobold is a lizardlike humanoid of the upper dungeon.",
 		"poking at", "Examining",
 		{"clubs", "bashes", {0}}},
@@ -1950,6 +1954,7 @@ const mutation mutationCatalog[NUMBER_MUTATORS] = {
 const hordeType hordeCatalog[NUMBER_HORDES] = {
 	// leader		#members	member list								member numbers					minL	maxL	freq	spawnsIn		machine			flags
 	{MK_RAT,			0,		{0},									{{0}},							1,		5,		15},
+	{MK_PLAGUE_RAT,			0,		{MK_PLAGUE_RAT},									{{1, 5, 3}},							5,		15,		5},
 	{MK_KOBOLD,			0,		{0},									{{0}},							1,		6,		15},
 	{MK_JACKAL,			0,		{0},									{{0}},							1,		3,		10},
 	{MK_JACKAL,			1,		{MK_JACKAL},							{{1, 3, 1}},					3,		7,		5},
@@ -2150,7 +2155,7 @@ const monsterClass monsterClassCatalog[MONSTER_CLASS_COUNT] = {
     // name             frequency   maxDepth    member list
     {"abomination",     10,         -1,         {MK_BOG_MONSTER, MK_UNDERWORM, MK_KRAKEN, MK_TENTACLE_HORROR}},
     {"dar",             10,         22,         {MK_DAR_BLADEMASTER, MK_DAR_PRIESTESS, MK_DAR_BATTLEMAGE}},
-    {"animal",          10,         10,         {MK_RAT, MK_MONKEY, MK_JACKAL, MK_EEL, MK_TOAD, MK_CENTIPEDE, MK_SPIDER}},
+    {"animal",          10,         10,         {MK_RAT, MK_PLAGUE_RAT, MK_MONKEY, MK_JACKAL, MK_EEL, MK_TOAD, MK_CENTIPEDE, MK_SPIDER}},
     {"goblin",          10,         10,         {MK_GOBLIN, MK_GOBLIN_CONJURER, MK_GOBLIN_MYSTIC, MK_GOBLIN_TOTEM, MK_GOBLIN_CHIEFTAN}},
     {"ogre",            10,         16,         {MK_OGRE, MK_OGRE_SHAMAN, MK_OGRE_TOTEM}},
     {"dragon",          10,         -1,         {MK_DRAGON}},

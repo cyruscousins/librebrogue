@@ -28,7 +28,7 @@
 
 unsigned characterClass;
 unsigned classCount = 4;
-char* classNames[4] = {"Theif", "Barbarian", "Mage", "Jester"};
+char* classNames[4] = {"Theif", "Barbarian", "Corjurer", "Jester"};
 
 
 void rogueMain() {
