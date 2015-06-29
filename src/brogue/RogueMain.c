@@ -429,12 +429,11 @@ void initializeRogue(unsigned long seed) {
 	rogue.lightMultiplier = 1;
 	
 	//Class code
-	characterClass = rogue.seed % classCount;
-  characterClass = 0;
-	unsigned classRandValue = rogue.seed % 3; //TODO just use randomness as needed.
-	
-	//All characters
-	
+	characterClass = rand_range(0, classCount);
+  printf("Seed %d, Class %d\n", (int)previousGameSeed, (int)classCount);
+  characterClass = 2;
+  
+	//All classes get a ration
 	theItem = generateItem(FOOD, RATION);
 	theItem = addItemToPack(theItem);
 	
@@ -458,23 +457,17 @@ void initializeRogue(unsigned long seed) {
       theItem = addItemToPack(theItem);
       equipItem(theItem, false);
 	
-      if(rand_range(0, 1) == 0 && 0) {
+      if(rand_range(0, 1) == 0) {
         theItem = generateItem(WEAPON, DART);
-        theItem->enchant1 = theItem->enchant2 = 0;
         theItem->quantity = 25;
-        theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
-        identify(theItem);
         theItem = addItemToPack(theItem);
       } else {
         theItem = generateItem(WEAPON, POISON_DART);
-        theItem->enchant1 = theItem->enchant2 = 0;
         theItem->quantity = 15;
-        theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
-        identify(theItem);
         theItem = addItemToPack(theItem);
       }
 	    
-	    switch (classRandValue){
+	    switch (rand_range(0, 3)){
 	      case 0:
 	      	theItem = generateItem(RING, RING_CLAIRVOYANCE);
 	        theItem->enchant1 = 1; //Need to give rings some enchantment.
@@ -504,7 +497,7 @@ void initializeRogue(unsigned long seed) {
 			player.currentHP = player.info.maxHP += 5;
 			rogue.strength += 3;
 			
-      if(rand_range(0, 1) == 0 || 1) {
+      if(rand_range(0, 1) == 0) {
         theItem = generateItem(WEAPON, CLUB);
         theItem->enchant1 = theItem->enchant2 = 0;
         theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
@@ -512,7 +505,9 @@ void initializeRogue(unsigned long seed) {
         identify(theItem);
         equipItem(theItem, false);
         
-        //TODO add a consolation prize for getting this club.
+        //Consolation prize
+        theItem = generateItem(FOOD, SWEET_NECTAR);
+        theItem = addItemToPack(theItem);
       } else {
         theItem = generateItem(WEAPON, SWORD);
         theItem->enchant1 = theItem->enchant2 = 0;
@@ -524,30 +519,71 @@ void initializeRogue(unsigned long seed) {
       
 	  break;
 	  case 2: //Conjurer
+    {
 	    theItem = generateItem(WEAPON, INCENDIARY_DART);
-	    theItem->enchant1 = theItem->enchant2 = 0;
 	    theItem->quantity = 10;
+	    theItem = addItemToPack(theItem);
+      
+      short staffType;
+      
+      switch(rand_range(0, 3)) {
+        case 0:
+          staffType = STAFF_LIGHTNING;
+          break;
+        case 1:
+          staffType = STAFF_FIRE;
+          break;
+        case 2:
+          staffType = STAFF_CONJURATION;
+          break;
+      }
+	    
+	    theItem = generateItem(STAFF, staffType);
 	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+	    theItem = addItemToPack(theItem);
+	    identify(theItem);
+	    
+      short potionType;
+      
+      switch(rand_range(0, 3)) {
+        case 0:
+          potionType = POTION_INVISIBILITY;
+          break;
+        case 1:
+          potionType = POTION_DARKNESS;
+          break;
+        case 2:
+          potionType = POTION_HALLUCINATION;
+          break;
+      }
+      
+	    theItem = generateItem(POTION, potionType);
 	    identify(theItem);
 	    theItem = addItemToPack(theItem);
-	    
-	    theItem = generateItem(STAFF, STAFF_LIGHTNING);
-	    theItem->enchant1 = theItem->enchant2 = 0;
-	    theItem->quantity = 1;
-	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
-	    identify(theItem);
-	    theItem = addItemToPack(theItem);
-	    
-	    theItem = generateItem(POTION, classRandValue == 0 ? POTION_INVISIBILITY : (classRandValue == 1) ? POTION_DARKNESS :POTION_HALLUCINATION);
-	    theItem->enchant1 = theItem->enchant2 = 0;
-	    theItem->quantity = 1;
-	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
-	    identify(theItem);
-	    theItem = addItemToPack(theItem);
-	    
-	  //Boost enchantment status lengths?
+      
+      //Conjurer's knowledge: starts with knowledge of various random magical items.
+      item temp;
+      temp.category = SCROLL;
+      temp.kind = rand_range(0, NUMBER_SCROLL_KINDS);
+      identifyItemKind(&temp);
+      
+      temp.category = POTION;
+      temp.kind = rand_range(0, NUMBER_POTION_KINDS);
+      identifyItemKind(&temp);
+      
+      temp.category = WAND;
+      temp.kind = rand_range(0, NUMBER_WAND_KINDS);
+      identifyItemKind(&temp);
+      
+      temp.category = STAFF;
+      temp.kind = rand_range(0, NUMBER_STAFF_KINDS);
+      identifyItemKind(&temp);
+      
+      //Boost enchantment status lengths?
+    }
 	  break;
 	  case 3: //Jester
+    {
 	    player.status[STATUS_NUTRITION] = player.maxStatus[STATUS_NUTRITION] = STOMACH_SIZE + 100;
 	    
 	    //What Jester doesn't enjoy juggling a few mangos?
@@ -560,47 +596,39 @@ void initializeRogue(unsigned long seed) {
 
 	    //A few tricks
 	    theItem = generateItem(WEAPON, DART);
-	    theItem->enchant1 = theItem->enchant2 = 0;
 	    theItem->quantity = 5;
-	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
-	    identify(theItem);
 	    theItem = addItemToPack(theItem);
 
 	    theItem = generateItem(WEAPON, INCENDIARY_DART);
-	    theItem->enchant1 = theItem->enchant2 = 0;
 	    theItem->quantity = 5;
-	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
-	    identify(theItem);
 	    theItem = addItemToPack(theItem);
 
       //And another interesting trick
-      theItem = generateItem(POTION, POTION_CONFUSION);
-	    theItem->enchant1 = theItem->enchant2 = 0;
-	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
-	    identify(theItem);
-	    theItem = addItemToPack(theItem);
-	    
-	    theItem = generateItem(POTION, POTION_DESCENT);
-	    theItem->enchant1 = theItem->enchant2 = 0;
-	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
-	    identify(theItem);
-	    theItem = addItemToPack(theItem);
-	    
-	    theItem = generateItem(CHARM, CHARM_TELEPATHY);
-	    theItem->enchant1 = theItem->enchant2 = 0;
-	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+      
+      short potionType = POTION;
+      
+      switch(rand_range(0, 3)) {
+        case 0:
+          potionType = POTION_CONFUSION;
+          break;
+        case 1:
+          potionType = POTION_DESCENT;
+          break;
+        case 2:
+          potionType = POTION_HALLUCINATION;
+          break;
+      }
+      theItem = generateItem(POTION, potionType);
 	    identify(theItem);
 	    theItem = addItemToPack(theItem);
       
       //And an unknown trinket
-      
 	    theItem = generateItem(-1, -1);
 	    identify(theItem);
 	    theItem = addItemToPack(theItem);      
-	    
+    }
 	  break;
     case 4: //Accursed One
-      //TODO: This character is too powerful, and finding a single scroll of remove curse exacerbates the problem.
 	    player.status[STATUS_NUTRITION] = player.maxStatus[STATUS_NUTRITION] = STOMACH_SIZE + 1000; //Such a being requires little in the way of sustenance.
 			player.currentHP = player.info.maxHP += 10;
 			rogue.strength += 4;
@@ -611,8 +639,7 @@ void initializeRogue(unsigned long seed) {
       theItem->flags = 0;
       theItem->flags |= ITEM_CURSED;
       if (rand_percent(33)) { // give it a bad runic
-        theItem->enchant2 = rand_range(NUMBER_GOOD_WEAPON_ENCHANT_KINDS,
-	NUMBER_WEAPON_RUNIC_KINDS - 1); //TODO need to make more bad runic weapons for this to be interesting.
+        theItem->enchant2 = rand_range(NUMBER_GOOD_WEAPON_ENCHANT_KINDS, NUMBER_WEAPON_RUNIC_KINDS - 1); //TODO need to make more bad runic weapons for this to be interesting.
         theItem->flags |= ITEM_RUNIC;
       } else {
         theItem->enchant2 = 0;
@@ -675,7 +702,7 @@ void initializeRogue(unsigned long seed) {
   Sporewalker:  An adventurer that has succumbed to a hiddeous fungal growth.  Found in mushroom gardens.  Turns allies into fungal slaves upon death.  DF_LUMINESCENT_FUNGUS
   Sporecrawler:  What was once an animal is now a horrifying testament to the dark forces that lurk beneath the ground.  Fungal caps grow from the creatures flesh, and the scent of rotting flesh mixed with fungal spores hits you from a mile away.
   
-  Follower: A unique curse monster that follows the Accursed One.  It moves slowly, and attacks even more slowly (though with devastating strength).  It can't be killed, only sent back to the previous stairwell, and each "death" dooubles its strength.
+  Follower: A unique curse monster that follows the Accursed One.  It moves slowly, and attacks even more slowly (though with devastating strength).  It can't be killed, only sent back to the previous stairwell, and each "death" doubles its strength.
   	
 	Class modifications:
 	
@@ -683,7 +710,9 @@ void initializeRogue(unsigned long seed) {
 	Barbarians have mind effects last longer
   
   Weapons:
-   Poison darts are broken (don't cause poison).
+   Pebbles (rarely do damage).  The issue is how to integrate them: we don't want piles of pebbles lying everywhere, and they shouldn't draw the eye like the more useful weapons.
+   
+   It might be interesting to make breakability a bad runic effect.  Crystal swords should also not be curseable, both to make them a more interesting weapon and to prevent a bad runic clash.
 	
 	*/
 	

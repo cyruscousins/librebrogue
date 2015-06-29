@@ -790,7 +790,10 @@ void checkNutrition() {
         for (theItem = packItems->nextItem; theItem != NULL; theItem = theItem->nextItem) {
             if (theItem->category == FOOD) {
                 char buf[30];
+                short tempCount = theItem->quantity;
+                theItem->quantity = 1
                 itemName(theItem, buf, false, true, &itemMessageColor);
+                theItem->quantity = tempCount;
                 char buf2[128];
                 sprintf(buf2, "unable to control your hunger, you eat %s.", buf);
                 messageWithColor(buf2, &itemMessageColor, true);
