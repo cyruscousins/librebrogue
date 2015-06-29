@@ -789,7 +789,9 @@ void checkNutrition() {
         // Force the player to eat something if he has it
         for (theItem = packItems->nextItem; theItem != NULL; theItem = theItem->nextItem) {
             if (theItem->category == FOOD) {
-                sprintf(buf, "unable to control your hunger, you eat a %s.", (theItem->kind == FRUIT ? "mango" : "ration of food"));
+                char buf[30];
+                itemName(theItem, buf, false, true, &itemMessageColor);
+                sprintf(buf, "unable to control your hunger, you eat %s.", buf);
                 messageWithColor(buf, &itemMessageColor, true);
                 apply(theItem, false);
                 break;

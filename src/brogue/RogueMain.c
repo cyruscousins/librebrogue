@@ -435,6 +435,7 @@ void initializeRogue(unsigned long seed) {
 	printf("Seed %ld Class %d\n", rogue.seed, characterClass); 
 	
 	//All characters
+	
 	theItem = generateItem(FOOD, RATION);
 	theItem = addItemToPack(theItem);
 	
@@ -442,7 +443,7 @@ void initializeRogue(unsigned long seed) {
 		case 0: //Theif
 		  player.info.movementSpeed -= 10;
 		  player.info.attackSpeed -= 8;
-		  player.status[STATUS_NUTRITION] = player.maxStatus[STATUS_NUTRITION] = STOMACH_SIZE + 10; //Don't know if this is permanent.
+		  player.status[STATUS_NUTRITION] = player.maxStatus[STATUS_NUTRITION] = STOMACH_SIZE + 100; //Don't know if this is permanent.
 		  
 	    theItem = generateItem(WEAPON, DAGGER);
 	    theItem->enchant1 = theItem->enchant2 = 0;
@@ -524,7 +525,7 @@ void initializeRogue(unsigned long seed) {
 	  //Boost enchantment status lengths?
 	  break;
 	  case 3: //Jester
-	    player.status[STATUS_NUTRITION] = player.maxStatus[STATUS_NUTRITION] = STOMACH_SIZE + 10;
+	    player.status[STATUS_NUTRITION] = player.maxStatus[STATUS_NUTRITION] = STOMACH_SIZE + 100;
 	    
 	    //What Jester doesn't enjoy juggling a few mangos?
 	    theItem = generateItem(FOOD, FRUIT);
@@ -569,16 +570,30 @@ void initializeRogue(unsigned long seed) {
 	
 	//Planned features:  Additional classes
 	/*
+  Dice:
+  When thrown, they have a random effect.  Lucky dice (enchanted) may roll a bit extra if they were about to be unlucky.
+
+	Status Effects:
+	Frozen: Take damage over time, immobile (no turns), incoming damage is halved (Except maybe concussive damage?), fire damage reduces status duration.
+	Petrified: Incoming damage is quartered.  (Striking dulls weapons?) No movement.
+	Diseased: Causes damage, causes random status effects including poison and weakness.  Reduced by food.
+	
+	Classes:
 	
 	Scholar: Starts with many items identified.
 	Soldier: Starts well armed
-	Accursed One: Starts with high stats but cursed armor.
+	Accursed One: A demigod or fallen angel, starts with high stats but cursed armor.  Can't make allies?
+	
+	Monsters:
+  Medusa: Found in a stone garden, surrounded by a collection of petrified creatures, the medusa has a chance to petrify nearby creatures on sight.  Consequently, the stone garden will awaken soon after the medusa is killed.  Pluralization: medusae
+  Icewalker: Chance to freeze on attacks.  Freezes water as it walks, and thus can walk over water.  Slow.  Weak to fire.
+  Sporewalker:  An adventurer that has succumbed to a hiddeous fungal growth.  Found in mushroom gardens.  Turns allies into fungal slaves upon death.
+  Sporecrawler:  What was once an animal is now a horrifying testament to the dark forces that lurk beneath the ground.  Fungal caps grow from the creatures flesh, and the scent of rotting flesh mixed with fungal spores hits you from a mile away.
 	
 	Class modifications:
 	
 	Conjurers have positive magical effects last longer
 	Barbarians have mind effects last longer
-	Rings need to be enchanted (or they do nothing).
 	
 	*/
 	
@@ -644,6 +659,12 @@ void initializeRogue(unsigned long seed) {
     recalculateEquipmentBonuses();
 	
 	DEBUG {
+    theItem = generateItem(FOOD, SWEET_NECTAR);
+    theItem = addItemToPack(theItem);
+
+    theItem = generateItem(FOOD, AMBROSIA);
+    theItem = addItemToPack(theItem);
+
 		theItem = generateItem(RING, RING_CLAIRVOYANCE);
 		theItem->enchant1 = max(DROWS, DCOLS);
 		theItem->flags &= ~ITEM_CURSED;

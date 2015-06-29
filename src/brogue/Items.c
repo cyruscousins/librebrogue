@@ -1305,8 +1305,18 @@ void itemName(item *theItem, char *root, boolean includeDetails, boolean include
 		case FOOD:
 			if (theItem -> kind == FRUIT) {
 				sprintf(root, "mango%s", pluralization);
+			} else if (theItem -> kind == AMBROSIA) {
+			  sprintf(article, "some ");
+			  sprintf(root, "ambrosia");
+			} else if (theItem -> kind == SWEET_NECTAR) {
+		    if (theItem->quantity == 1) {
+  			  sprintf(article, "some ");
+		      sprintf(root, "sweet nectar");
+		    } else {
+		      sprintf(root, "carafe%s of sweet nectar", pluralization);
+		    }
 			} else {
-				if (theItem->quantity == 1) {
+			  if (theItem->quantity == 1) {
 					sprintf(article, "some ");
 					sprintf(root, "food");
 				} else {
@@ -1553,9 +1563,9 @@ void itemName(item *theItem, char *root, boolean includeDetails, boolean include
 			sprintf(article, "%i ", theItem->quantity);
 		} else if (theItem->category & AMULET) {
 			sprintf(article, "the ");
-		} else if (!(theItem->category & ARMOR) && !(theItem->category & FOOD && theItem->kind == RATION)) {
+		} else if (!(theItem->category & ARMOR) && (article[0] == '\0')) {
 			// otherwise prepend a/an if the item is not armor and not a ration of food;
-			// armor gets no article, and "some food" was taken care of above.
+			// armor gets no article, otherwise if no article has been provided, use a / an.
 			sprintf(article, "a%s ", (isVowelish(root) ? "n" : ""));
 		}
 	}
@@ -6183,20 +6193,59 @@ void apply(item *theItem, boolean recordCommands) {
 	confirmMessages();
 	switch (theItem->category) {
 		case FOOD:
-			if (STOMACH_SIZE - player.status[STATUS_NUTRITION] < foodTable[theItem->kind].strengthRequired) { // Not hungry enough.
-				sprintf(buf, "You're not hungry enough to fully enjoy the %s. Eat it anyway?",
-						(theItem->kind == RATION ? "food" : "mango"));
+			if (player.maxStatus[STATUS_NUTRITION] - player.status[STATUS_NUTRITION] < foodTable[theItem->kind].strengthRequired) { // Not hungry enough.
+				sprintf(buf, "You're not hungry enough to fully enjoy the %s. Eat it anyway?", foodTable[theItem->kind].name);
 				if (!confirm(buf, false)) {
 					return;
 				}
+			} else if (theItem->kind == AMBROSIA && player.status[STATUS_NUTRITION] > player.maxStatus[STATUS_NUTRITION] / 4) {
+			  sprintf(buf, "Ambrosia is rumoured to fill the stomach for days on end, and you wonder if you are hungry enough to eat it.  Continue?");
+			  if(!confirm(buf, false)) {
+			    return;
+			  }
 			}
-			player.status[STATUS_NUTRITION] = min(foodTable[theItem->kind].strengthRequired + player.status[STATUS_NUTRITION], STOMACH_SIZE);
-			if (theItem->kind == RATION) {
-				messageWithColor("That food tasted delicious!", &itemMessageColor, false);
-			} else {
-				messageWithColor("My, what a yummy mango!", &itemMessageColor, false);
+			switch(theItem->kind) {
+			  case RATION:
+  				messageWithColor("That food tasted delicious!", &itemMessageColor, false);
+  				break;
+        case FRUIT:
+          {
+            unsigned rval = rand_range(0, 3);
+            if(rval == 0) {
+              messageWithColor("You frown as you bite into the appealing flesh and find that it has gone soft.  But what did you expect from a mango in such a place?", &itemMessageColor, false);
+              player.status[STATUS_NUTRITION] -= 500; //Note, this may go negative, but it is a (signed) short and will be restored when the mango is applied.
+            } else {
+    				  messageWithColor("My, what a yummy mango!", &itemMessageColor, false);
+            }
+          }
+  				break;
+  		  case SWEET_NECTAR:
+  		    {
+    		    unsigned maxVal = 0;
+    		    unsigned i;
+    		    for(i = 0; i < NUMBER_OF_STATUS_EFFECTS; i++) {
+      		    if (i == STATUS_NUTRITION || i == STATUS_ENTERS_LEVEL_IN || i == STATUS_DONNING || i == STATUS_AGGRAVATING) continue;
+      		    if (player.status[i] > maxVal) {
+      		      maxVal = player.status[i];
+      		    }
+      		    player.status[i] /= 2;
+      		  }
+      		  if(maxVal > 0) {
+      		    messageWithColor("As you drink the carafe of sweet SWEET_NECTAR, you feel yourself return to your natural state as all of the ailments and magical effects leave your body", &itemMessageColor, false);
+      		  } else {
+    		      messageWithColor("The sweet SWEET_NECTAR quenches your thirst!", &itemMessageColor, false);
+            }
+          }
+  		    break;
+  		  case AMBROSIA:
+  				messageWithColor("The ambrosia fills your body with energy, and you wonder if you will ever feel hungry again!", &itemMessageColor, false);
+  		    player.status[STATUS_NUTRITION] = player.maxStatus[STATUS_NUTRITION] = player.maxStatus[STATUS_NUTRITION] + 100;
+  		    break;
 			}
-            rogue.featRecord[FEAT_MYSTIC] = false;
+			
+			player.status[STATUS_NUTRITION] = min(foodTable[theItem->kind].strengthRequired + player.status[STATUS_NUTRITION], player.maxStatus[STATUS_NUTRITION]);
+			
+      rogue.featRecord[FEAT_MYSTIC] = false;
 			break;
 		case POTION:
 			command[c] = '\0';

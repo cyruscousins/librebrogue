@@ -1551,7 +1551,7 @@ creatureType monsterCatalog[NUMBER_MONSTER_KINDS] = {
 		(MONST_MALE | MONST_FEMALE)},
 	
 	{0, "rat",			'r',	&gray,			6,		0,		80,		{1, 3, 1},		20,	100,	100,	DF_RED_BLOOD,	0,		1,		DF_URINE,       {0}},
-  {0, "plague rat",			'r',	&darkGreen,			3,		0,		75,		{1, 3, 1},		20,	100,	100,	DF_RED_BLOOD,	0,		1,		DF_URINE,       {0}, (0), (MA_CAUSES_WEAKNESS | MA_POISONS)},
+  {0, "plague rat",			'r',	&darkGreen,			4,		0,		75,		{1, 4, 2},		20,	100,	100,	DF_PURPLE_BLOOD,	0,		1,		DF_URINE,       {0}, (0), ( MA_POISONS)},
 	{0, "kobold",		'k',	&goblinColor,	7,		0,		80,		{1, 4, 1},		20,	100,	100,	DF_RED_BLOOD,	0,		0,		0,              {0}},
 	{0,	"jackal",		'j',	&jackalColor,	8,		0,		70,		{2, 4, 1},		20,	50,		100,	DF_RED_BLOOD,	0,		1,		DF_URINE,              {0}},
 	{0,	"eel",			'e',	&eelColor,		18,		27,		100,	{3, 7, 2},		5,	50,		100,	0,              0,		0,		0,              {0},
@@ -1954,7 +1954,8 @@ const mutation mutationCatalog[NUMBER_MUTATORS] = {
 const hordeType hordeCatalog[NUMBER_HORDES] = {
 	// leader		#members	member list								member numbers					minL	maxL	freq	spawnsIn		machine			flags
 	{MK_RAT,			0,		{0},									{{0}},							1,		5,		15},
-	{MK_PLAGUE_RAT,			0,		{MK_PLAGUE_RAT},									{{1, 5, 3}},							5,		15,		5},
+	{MK_RAT,			0,		{MK_RAT},									{{1,5,3}},							2,		8,		15},
+	{MK_PLAGUE_RAT,			0,		{MK_PLAGUE_RAT, MK_RAT},									{{1, 5, 3}, {0,2,1}},							3,		10,		5},
 	{MK_KOBOLD,			0,		{0},									{{0}},							1,		6,		15},
 	{MK_JACKAL,			0,		{0},									{{0}},							1,		3,		10},
 	{MK_JACKAL,			1,		{MK_JACKAL},							{{1, 3, 1}},					3,		7,		5},
@@ -2308,8 +2309,10 @@ const itemTable keyTable[NUMBER_KEY_TYPES] = {
 };
 
 const itemTable foodTable[NUMBER_FOOD_KINDS] = {
-	{"ration of food",		"", "", 3, 25,	1800, {0,0,0}, true, false, "A ration of food. Was it left by former adventurers? Is it a curious byproduct of the subterranean ecosystem?"},
-	{"mango",				"", "", 1, 15,	1550, {0,0,0}, true, false, "An odd fruit to be found so deep beneath the surface of the earth, but only slightly less filling than a ration of food."}
+	{"ration of food",		"", "", 6, 25,	1800, {0,0,0}, true, false, "A ration of food. Was it left by former adventurers? Is it a curious byproduct of the subterranean ecosystem?"},
+	{"mango",				"", "", 2, 15,	1550, {0,0,0}, true, false, "An odd fruit to be found so deep beneath the surface of the earth, but only slightly less filling than a ration of food."},
+	{"sweet nectar", "", "", 2, 50, 500, {0,0,0}, true, false, "Though not particularly filling, it is said that even a single drop of sweet nectar can dissipate ailments and magical effects."},
+  {"ambrosia", "", "", 1, 200, 0, {0,0,0}, true, false, "Widely believed to be the food of the gods themselves, a single bite is said to fill the stomach for days on end.  How could such a rarity be found in a place like this?"}, //Note: TODO always claims that one is hungry enough to eat it.
 };
 
 const itemTable weaponTable[NUMBER_WEAPON_KINDS] = {

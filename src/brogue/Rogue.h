@@ -61,7 +61,7 @@
 // set to false to disable references to keystrokes (e.g. for a tablet port)
 #define KEYBOARD_LABELS true
 
-//#define BROGUE_ASSERTS		// introduces several assert()s -- useful to find certain array overruns and other bugs
+#define BROGUE_ASSERTS		// introduces several assert()s -- useful to find certain array overruns and other bugs
 //#define AUDIT_RNG             // VERY slow, but sometimes necessary to debug out-of-sync recording errors
 //#define GENERATE_FONT_FILES	// Displays font in grid upon startup, which can be screen-captured into font files for PC.
 
@@ -704,6 +704,8 @@ enum keyKind {
 enum foodKind {
 	RATION,
 	FRUIT,
+	SWEET_NECTAR,
+	AMBROSIA,
 	NUMBER_FOOD_KINDS
 };
 
@@ -985,7 +987,7 @@ enum monsterTypes {
 
 #define NUMBER_MUTATORS             8
 
-#define	NUMBER_HORDES				169
+#define	NUMBER_HORDES				170
 
 #define MONSTER_CLASS_COUNT         13
 
