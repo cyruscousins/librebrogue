@@ -168,7 +168,7 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
 			
 			if (rand_percent(40)) {
 				theItem->enchant1 += rand_range(1, 3);
-				if (theItem->kind != CRYSTAL_SWORD && rand_percent(50)) { //Crystal sword can't be cursed.
+				if ((itemKind != CRYSTAL_SWORD) && rand_percent(50)) { //Crystal sword can't be cursed.
 					// cursed
 					theItem->enchant1 *= -1;
 					theItem->flags |= ITEM_CURSED;
@@ -5620,13 +5620,14 @@ void throwItem(item *theItem, creature *thrower, short targetLoc[2], short maxDi
 //				itemName(theItem, buf3, false, false, NULL);
 //				sprintf(buf, "%s deflect%s the %s", buf2, (monst == &player ? "" : "s"), buf3);
 //				combatMessage(buf, 0);
-//				continue;
+//				continue;7
 //			}
                 if ((theItem->category & WEAPON)
                     && theItem->kind != INCENDIARY_DART
                     && hitMonsterWithProjectileWeapon(thrower, monst, theItem)) {
                   if(theItem->kind == POISON_DART) {
                     addPoison(monst, 8, 1);
+                    monst->status[STATUS_PARALYZED] = min(monst->maxStatus[STATUS_PARALYZED], rand_range(0, 4) + monst->status[STATUS_PARALYZED]);
                   }
                   return;
                 }
@@ -6245,9 +6246,9 @@ void apply(item *theItem, boolean recordCommands) {
       		    player.status[i] /= 2;
       		  }
       		  if(maxVal > 0) {
-      		    messageWithColor("As you drink the carafe of sweet SWEET_NECTAR, you feel yourself return to your natural state as all of the ailments and magical effects leave your body", &itemMessageColor, false);
+      		    messageWithColor("As you drink the carafe of sweet nectar, you feel yourself return to your natural state as all of the ailments and magical effects leave your body", &itemMessageColor, false);
       		  } else {
-    		      messageWithColor("The sweet SWEET_NECTAR quenches your thirst!", &itemMessageColor, false);
+    		      messageWithColor("The sweet nectar quenches your thirst!", &itemMessageColor, false);
             }
           }
   		    break;

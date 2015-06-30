@@ -27,8 +27,8 @@
 #include <time.h>
 
 unsigned characterClass;
-unsigned classCount = 5;
-char* classNames[5] = {"Thief", "Barbarian", "Conjurer", "Jester", "Accursed One"};
+unsigned classCount = 6;
+char* classNames[6] = {"Thief", "Barbarian", "Conjurer", "Jester", "Accursed One", "Long Distance Runner"};
 
 
 void rogueMain() {
@@ -374,7 +374,7 @@ void initializeRogue(unsigned long seed) {
 	memset(&player, '\0', sizeof(creature));
 	player.info = monsterCatalog[0];
 	initializeGender(&player);
-	player.movementSpeed = player.info.movementSpeed;
+	player.movementSpeed = player.info.movementSpeed = 100;
 	player.attackSpeed = player.info.attackSpeed;
 	clearStatus(&player);
 	player.carriedItem = NULL;
@@ -430,6 +430,7 @@ void initializeRogue(unsigned long seed) {
 	
 	//Class code
 	characterClass = rand_range(0, classCount);
+  characterClass = 5;
   printf("Seed %d, Class %d\n", (int)previousGameSeed, (int)classCount);
   
 	//All classes get a ration
@@ -682,6 +683,20 @@ void initializeRogue(unsigned long seed) {
 	    equipItem(theItem, true);
       
       break;
+    case 5: //Runner (without which no Cyrus Cousins production could exist).
+      player.status[STATUS_NUTRITION] = player.maxStatus[STATUS_NUTRITION] = STOMACH_SIZE + 100; //A skinny thing need not eat so much
+			rogue.strength -= 1;
+      
+      theItem = generateItem(FOOD, SWEET_NECTAR);
+      theItem = addItemToPack(theItem);
+      
+      theItem = generateItem(FOOD, FRUIT);
+      theItem = addItemToPack(theItem);
+      
+      player.movementSpeed = player.info.movementSpeed = 50; //TODO don't know if this is permanent.
+      
+      //Should have a smaller pack size.
+      //Need a constant in rogue equal to MAX_PACK_ITEMS, but less for this character.
 	}
 	
 	//Planned features:  Additional classes

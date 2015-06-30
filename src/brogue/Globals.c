@@ -21,6 +21,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//This define makes expansion things more likely.
+#define EXPTEST 25
+
 #include "Rogue.h"
 
 tcell tmap[DCOLS][DROWS];						// grids with info about the map
@@ -1693,14 +1696,14 @@ creatureType monsterCatalog[NUMBER_MONSTER_KINDS] = {
     	//	name			ch		color			HP		def		acc		damage			reg	move	attack	blood			light	DFChance DFType         bolts       behaviorF, abilityF
     
   {0, "plague rat",			'r',	&darkGreen,			5,		0,		80,		{1, 4, 1},		20,	100,	100,	DF_PURPLE_BLOOD,	0,		1,		DF_URINE,       {0}, (0), ( MA_POISONS)},
-  {0,	"magpie",		'm',	&gray,		4,		5,		100,	{1, 2, 1},		20,	50,	100,	DF_RED_BLOOD,	0,		0,    0,       {0},
-		(MONST_CARRY_ITEM_25 | MONST_FLIES | MONST_FLITS), (MA_HIT_STEAL_FLEE)},
+  {0,	"magpie",		'm',	&gray,		4,		5,		100,	{1, 2, 1},		20,	67,	100,	DF_RED_BLOOD,	0,		0,    0,       {0},
+		(MONST_CARRY_ITEM_25 | MONST_FLIES | MONST_FLITS | MONST_FLEES_NEAR_DEATH | MONST_MALE | MONST_FEMALE), (MA_HIT_STEAL_FLEE)}, //TODO no opening doors, magpies are mobile enough.
   {0, "pestilent swarm",			'~' + 3,	&darkRed,			15,		25,		100,		{1, 5, 1},		35,	50,	75,	0,	0,		0,  0,       {0}, (MONST_FLITS | MONST_FLIES), (MA_CLONE_SELF_ON_DEFEND | MA_TRANSFERENCE)}, //TODO name character properly.  TODO pluralization
   {0, "sporewalker", THETA_CHAR + 16, &gray, 50, 50, 80, {3, 5, 1}, 1, 200, 100, DF_POISON_GAS_CLOUD, FUNGUS_LIGHT, 20, DF_LUMINESCENT_FUNGUS, {0}, (MONST_CARRY_ITEM_25 | MONST_NEVER_SLEEPS | MONST_FLITS), (MA_SEIZES | MA_DF_ON_DEATH)},
   {0, "sporecrawler", THETA_CHAR + 16, &red, 45, 50, 80, {3, 5, 1}, 1, 100, 100, DF_POISON_GAS_CLOUD, FUNGUS_LIGHT, 15, DF_LUMINESCENT_FUNGUS, {0}, (MONST_NEVER_SLEEPS | MONST_FLITS), (MA_DF_ON_DEATH)},
-  {0, "carnivorous snail", '@', &brown, 40, 65, 90, {3, 6, 2}, 20, 200, 100, 0 /* DF_SHELL */, 0, 0 /* 100 */, 0 /* DF_SLIME */, {0}, (MONST_RESTRICTED_TO_LIQUID | MONST_SUBMERGES | MONST_IMMUNE_TO_WATER), (0)}, //TODO, shell, slime //TODO trait for aggressive monster that attacks other monsters.
-  {0, "flaming snail", '@', &red, 40, 65, 80, {3, 7, 1}, 20, 200, 100, 0 /* DF_SHELL */, FIRE_LIGHT, 15, DF_PLAIN_FIRE, {0}, (MONST_IMMUNE_TO_FIRE | MONST_FIERY), (0)}, //TODO snail deserves its own light source
-  {0, "mutagen jelly", 'J', &rainbow, 50, 50, 80, {5, 16, 2}, 10, 100, 100, (DF_MUTATION_EXPLOSION), 0, 15, (DF_PURPLE_BLOOD), {0}, (MONST_FLITS), (MA_CAUSES_WEAKNESS | MA_NEVER_MUTATED)} //TODO the mutagen jelly deserves its own color. Blood should be slime
+  {0, "carnivorous snail", '@', &brown, 40, 65, 90, {3, 6, 2}, 20, 200, 100, 0 /* DF_SHELL */, 0, 0 /* 100 */, 0 /* DF_SLIME */, {0}, (MONST_RESTRICTED_TO_LIQUID | MONST_SUBMERGES | MONST_IMMUNE_TO_WATER), (0)}, //TODO, shell, slime //TODO trait for aggressive monster that attacks other monsters. //TODO snails generate outside of water?
+  {0, "flaming snail", '@', &red, 40, 65, 80, {3, 7, 1}, 20, 200, 100, 0 /* DF_SHELL */, FIRE_LIGHT, 15, DF_PLAIN_FIRE, {0}, (MONST_IMMUNE_TO_FIRE | MONST_FIERY), (0)}, //TODO snail deserves its own light source //TODO snail should burn attackers and defenders.
+  {0, "mutagen jelly", 'J', &rainbow, 50, 50, 80, {5, 16, 2}, 10, 100, 100, (DF_MUTATION_EXPLOSION), 0, 15, (DF_PURPLE_BLOOD), {0}, (MONST_FLITS), (MA_CAUSES_WEAKNESS | MA_NEVER_MUTATED)}, //TODO the mutagen jelly deserves its own color. Blood should be slime
   
   //Invisible man?
   
@@ -2205,8 +2208,6 @@ const hordeType hordeCatalog[NUMBER_HORDES] = {
   //Expansion:
   	// leader		#members	member list								member numbers					minL	maxL	freq	spawnsIn		machine			flags
   
-#define EXPTEST 100
-  
   {MK_PLAGUE_RAT,			2,		{MK_PLAGUE_RAT, MK_RAT},									{{1, 5, 2}, {0,2,1}},							3,		10,		EXPTEST + 5},
 	{MK_MAGPIE,			0,		{0},									{{0}},							1,		5,		EXPTEST + 3},
 	{MK_SWARM_FLIES,	0,		{0},                                    {{0}},                          7,		14,		EXPTEST + 4},
@@ -2406,11 +2407,11 @@ const itemTable weaponTable[NUMBER_WEAPON_KINDS] = {
 
 	{"dart",				"", "",	5,	15,			10,	{2,	4,	1},		true, false, "These simple metal spikes are weighted to fly true and sting their prey with a flick of the wrist."},
 	{"incendiary dart",		"", "",	10, 25,			12,	{1,	2,	1},		true, false, "The barbed spike on each of these darts is designed to stick to its target while the compounds strapped to its length explode into flame."},
-	{"poison dart",		"", "",	5, 20,			10,	{1,3, 1},		true, false, "This lightweight spike is coated in a deadly poison, designed to fatally wound a target from afar."},
+	{"poison dart",		"", "",	EXPTEST + 5, 20,			10,	{1,3, 1},		true, false, "This lightweight spike is coated in a deadly poison, designed to fatally wound a target from afar."},
 	{"javelin",				"", "",	10, 40,			15,	{3, 11, 3},		true, false, "This length of metal is weighted to keep the spike at its tip foremost as it sails through the air."},
   
-	{"club",				"", "", 5, 20,		13,	{2,	4, 1},		true, false, "A crude club hewn from a single branch of a heavy wood.  The club shows heavy wear, and may break at any moment."},
-	{"crystal sword",				"", "", 5, 1500,		15,	{20, 35, 1},		true, false, "The blade of this crystal sword shimmers in the darkness.  It is surprisingly light for a blade of its size, though the weapon is far from weightless.  You worry that the blade may break with repeated use."},
+	{"club",				"", "", EXPTEST + 5, 20,		13,	{2,	4, 1},		true, false, "A crude club hewn from a single branch of a heavy wood.  The club shows heavy wear, and may break at any moment."},
+	{"crystal sword",				"", "", EXPTEST + 5, 1500,		15,	{20, 35, 1},		true, false, "The blade of this crystal sword shimmers in the darkness.  It is surprisingly light for a blade of its size, though the weapon is far from weightless.  You worry that the blade may break with repeated use."},
 };
 
 const itemTable armorTable[NUMBER_ARMOR_KINDS] = {
