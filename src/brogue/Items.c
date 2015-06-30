@@ -168,7 +168,7 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
 			
 			if (rand_percent(40)) {
 				theItem->enchant1 += rand_range(1, 3);
-				if (rand_percent(50)) {
+				if (theItem->kind != CRYSTAL_SWORD && rand_percent(50)) { //Crystal sword can't be cursed.
 					// cursed
 					theItem->enchant1 *= -1;
 					theItem->flags |= ITEM_CURSED;

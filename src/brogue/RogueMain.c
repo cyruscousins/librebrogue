@@ -537,7 +537,7 @@ void initializeRogue(unsigned long seed) {
           staffType = STAFF_CONJURATION;
           break;
       }
-	    
+      
 	    theItem = generateItem(STAFF, staffType);
 	    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
 	    theItem = addItemToPack(theItem);

@@ -920,6 +920,7 @@ enum monsterTypes {
 	MK_JACKAL,
 	MK_EEL,
 	MK_MONKEY,
+  MK_MAGPIE,
 	MK_BLOAT,
 	MK_PIT_BLOAT,
 	MK_GOBLIN,
@@ -929,6 +930,7 @@ enum monsterTypes {
 	MK_PINK_JELLY,
 	MK_TOAD,
 	MK_VAMPIRE_BAT,
+	MK_SWARM_FLIES,
 	MK_ARROW_TURRET,
 	MK_ACID_MOUND,
 	MK_CENTIPEDE,
@@ -992,7 +994,7 @@ enum monsterTypes {
 
 #define NUMBER_MUTATORS             8
 
-#define	NUMBER_HORDES				170
+#define	NUMBER_HORDES				173
 
 #define MONSTER_CLASS_COUNT         13
 
