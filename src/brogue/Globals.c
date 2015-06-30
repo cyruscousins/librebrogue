@@ -1551,15 +1551,12 @@ creatureType monsterCatalog[NUMBER_MONSTER_KINDS] = {
 		(MONST_MALE | MONST_FEMALE)},
 	
 	{0, "rat",			'r',	&gray,			6,		0,		80,		{1, 3, 1},		20,	100,	100,	DF_RED_BLOOD,	0,		1,		DF_URINE,       {0}},
-  {0, "plague rat",			'r',	&darkGreen,			5,		0,		80,		{1, 4, 1},		20,	100,	100,	DF_PURPLE_BLOOD,	0,		1,		DF_URINE,       {0}, (0), ( MA_POISONS)},
 	{0, "kobold",		'k',	&goblinColor,	7,		0,		80,		{1, 4, 1},		20,	100,	100,	DF_RED_BLOOD,	0,		0,		0,              {0}},
 	{0,	"jackal",		'j',	&jackalColor,	8,		0,		70,		{2, 4, 1},		20,	50,		100,	DF_RED_BLOOD,	0,		1,		DF_URINE,              {0}},
 	{0,	"eel",			'e',	&eelColor,		18,		27,		100,	{3, 7, 2},		5,	50,		100,	0,              0,		0,		0,              {0},
 		(MONST_RESTRICTED_TO_LIQUID | MONST_IMMUNE_TO_WATER | MONST_SUBMERGES | MONST_FLITS | MONST_NEVER_SLEEPS)},
 	{0,	"monkey",		'm',	&ogreColor,		12,		17,		100,	{1, 3, 1},		20,	100,	100,	DF_RED_BLOOD,	0,		1,		DF_URINE,       {0},
 		(0), (MA_HIT_STEAL_FLEE)},
-  {0,	"magpie",		'm',	&gray,		4,		5,		100,	{1, 2, 1},		20,	50,	100,	DF_RED_BLOOD,	0,		0,    0,       {0},
-		(MONST_FLIES), (MA_HIT_STEAL_FLEE)},
 	{0, "bloat",		'b',	&poisonGasColor,4,		0,		100,	{0, 0, 0},		5,	100,	100,	DF_PURPLE_BLOOD,0,		0,		DF_BLOAT_DEATH, {0},
 		(MONST_FLIES | MONST_FLITS), (MA_KAMIKAZE | MA_DF_ON_DEATH)},
 	{0, "pit bloat",	'b',	&lightBlue,     4,		0,		100,	{0, 0, 0},		5,	100,	100,	DF_PURPLE_BLOOD,0,		0,		DF_HOLE_POTION, {0},
@@ -1578,7 +1575,6 @@ creatureType monsterCatalog[NUMBER_MONSTER_KINDS] = {
 		(0), (MA_HIT_HALLUCINATE)},
 	{0, "vampire bat",	'v',	&gray,			18,		25,		100,	{2, 6, 1},		20,	50,		100,	DF_RED_BLOOD,	0,		0,		0,              {0},
 		(MONST_FLIES | MONST_FLITS), (MA_TRANSFERENCE)},
-  {0, "swarm of bloodsucking flies",			'~' + 3,	&darkRed,			16,		25,		100,		{2, 6, 2},		40,	50,	100,	0,	0,		0,  0,       {0}, (MONST_FLITS | MONST_FLIES), (MA_CLONE_SELF_ON_DEFEND | MA_TRANSFERENCE)}, //TODO name character properly.  TODO no blood.
 	{0, "arrow turret", TURRET_CHAR,&black,		30,		0,		90,		{2, 6, 1},		0,	100,	250,	0,              0,		0,		0,              {BOLT_DISTANCE_ATTACK},
 		(MONST_TURRET), (0)},
 	{0, "acid mound",	'a',	&acidBackColor,	15,		10,		70,		{1, 3, 1},		5,	100,	100,	DF_ACID_BLOOD,	0,		0,		0,              {0},
@@ -1691,6 +1687,38 @@ creatureType monsterCatalog[NUMBER_MONSTER_KINDS] = {
 		(MONST_IMMUNE_TO_FIRE| MONST_IMMUNE_TO_WEBS | MONST_NEVER_SLEEPS | MONST_IMMOBILE | MONST_INANIMATE | MONST_WILL_NOT_USE_STAIRS | MONST_NO_POLYMORPH | MONST_ALWAYS_HUNTING), (MA_CAST_SUMMON | MA_ENTER_SUMMONS)},
     {0,	"mangrove dryad",'M',	&tanColor,      70,		60,     175,	{2, 8, 2},		6,	100,	100,	DF_ASH_BLOOD,	0,      0,      0,              {BOLT_ANCIENT_SPIRIT_VINES},
 		(MONST_IMMUNE_TO_WEBS | MONST_ALWAYS_USE_ABILITY | MONST_MAINTAINS_DISTANCE | MONST_MALE | MONST_FEMALE), (0)},
+
+  // Expansion monsters
+    
+    	//	name			ch		color			HP		def		acc		damage			reg	move	attack	blood			light	DFChance DFType         bolts       behaviorF, abilityF
+    
+  {0, "plague rat",			'r',	&darkGreen,			5,		0,		80,		{1, 4, 1},		20,	100,	100,	DF_PURPLE_BLOOD,	0,		1,		DF_URINE,       {0}, (0), ( MA_POISONS)},
+  {0,	"magpie",		'm',	&gray,		4,		5,		100,	{1, 2, 1},		20,	50,	100,	DF_RED_BLOOD,	0,		0,    0,       {0},
+		(MONST_CARRY_ITEM_25 | MONST_FLIES | MONST_FLITS), (MA_HIT_STEAL_FLEE)},
+  {0, "pestilent swarm",			'~' + 3,	&darkRed,			15,		25,		100,		{1, 5, 1},		35,	50,	75,	0,	0,		0,  0,       {0}, (MONST_FLITS | MONST_FLIES), (MA_CLONE_SELF_ON_DEFEND | MA_TRANSFERENCE)}, //TODO name character properly.  TODO pluralization
+  {0, "sporewalker", THETA_CHAR + 16, &gray, 50, 50, 80, {3, 5, 1}, 1, 200, 100, DF_POISON_GAS_CLOUD, FUNGUS_LIGHT, 20, DF_LUMINESCENT_FUNGUS, {0}, (MONST_CARRY_ITEM_25 | MONST_NEVER_SLEEPS | MONST_FLITS), (MA_SEIZES | MA_DF_ON_DEATH)},
+  {0, "sporecrawler", THETA_CHAR + 16, &red, 45, 50, 80, {3, 5, 1}, 1, 100, 100, DF_POISON_GAS_CLOUD, FUNGUS_LIGHT, 15, DF_LUMINESCENT_FUNGUS, {0}, (MONST_NEVER_SLEEPS | MONST_FLITS), (MA_DF_ON_DEATH)},
+  {0, "carnivorous snail", '@', &brown, 40, 65, 90, {3, 6, 2}, 20, 200, 100, 0 /* DF_SHELL */, 0, 0 /* 100 */, 0 /* DF_SLIME */, {0}, (MONST_RESTRICTED_TO_LIQUID | MONST_SUBMERGES | MONST_IMMUNE_TO_WATER), (0)}, //TODO, shell, slime //TODO trait for aggressive monster that attacks other monsters.
+  {0, "flaming snail", '@', &red, 40, 65, 80, {3, 7, 1}, 20, 200, 100, 0 /* DF_SHELL */, FIRE_LIGHT, 15, DF_PLAIN_FIRE, {0}, (MONST_IMMUNE_TO_FIRE | MONST_FIERY), (0)}, //TODO snail deserves its own light source
+  {0, "mutagen jelly", 'J', &rainbow, 50, 50, 80, {5, 16, 2}, 10, 100, 100, (DF_MUTATION_EXPLOSION), 0, 15, (DF_PURPLE_BLOOD), {0}, (MONST_FLITS), (MA_CAUSES_WEAKNESS | MA_NEVER_MUTATED)} //TODO the mutagen jelly deserves its own color. Blood should be slime
+  
+  //Invisible man?
+  
+  /*
+	Which fire for the snail?
+	DF_PLAIN_FIRE,
+	DF_GAS_FIRE,
+	DF_EXPLOSION_FIRE,
+	DF_DART_EXPLOSION,
+	DF_BRIMSTONE_FIRE,
+	DF_BRIDGE_FIRE,
+	DF_FLAMETHROWER,
+	DF_EMBERS,
+	DF_EMBERS_PATCH,
+	DF_OBSIDIAN,
+	DF_ITEM_FIRE,
+	DF_CREATURE_FIRE,
+   */
 };
 
 #pragma mark Monster words
@@ -1702,9 +1730,6 @@ const monsterWords monsterText[NUMBER_MONSTER_KINDS] = {
 	{"The rat is a scavenger of the shallows, perpetually in search of decaying animal matter.",
 		"gnawing at", "Eating",
 		{"scratches", "bites", {0}}},
-  {"The plague rat is a sickening specimin, in the process of succumbing to whatever foulness lies fallow in this loathesome place.",
-    "gnawing at", "Eating",
-    {"scratches", "bites", "crawls over", "climbs on", {0}}},
 	{"The kobold is a lizardlike humanoid of the upper dungeon.",
 		"poking at", "Examining",
 		{"clubs", "bashes", {0}}},
@@ -1717,9 +1742,6 @@ const monsterWords monsterText[NUMBER_MONSTER_KINDS] = {
 	{"Mischievous trickster that $HESHE is, the monkey lives to steal shiny trinkets from passing adventurers.",
 		"examining", "Examining",
 		{"tweaks", "bites", "punches", {0}}},
-	{"These notorious birds can't resist relieving passing adventurers of their shiny objects.",
-		"pecking", "Pecking",
-		{"pecks", "claws", "scratches", {0}}},
 	{"A bladder of deadly gas buoys the bloat through the air, $HISHER thin veinous membrane ready to rupture at the slightest stress.",
 		"gazing at", "Gazing",
 		{"bumps", {0}},
@@ -1751,9 +1773,6 @@ const monsterWords monsterText[NUMBER_MONSTER_KINDS] = {
 	{"Often hunting in packs, leathery wings and keen senses guide the vampire bat unerringly to $HISHER prey.",
 		"draining", "Feeding",
 		{"nips", "bites", {0}}},
-	{"This innocuous swarm of flies will drain the blood from the unwary in minutes.  Attacking will only stir them up.",
-		"festering in", "Devouring",
-		{"drains", "bites", "swarms", {0}}},
 	{"A mechanical contraption embedded in the wall, the spring-loaded arrow turret will fire volley after volley of arrows at intruders.",
 		"gazing at", "Gazing",
 		{"shoots", {0}}},
@@ -1934,6 +1953,32 @@ const monsterWords monsterText[NUMBER_MONSTER_KINDS] = {
 	{"This mangrove dryad is as old as the earth, and $HISHER gnarled figure houses an ancient power. When angered, $HESHE can call upon the forces of nature to bind $HISHER foes and tear them to shreds.",
 		"absorbing", "Absorbing",
 		{"whips", "lashes", "thrashes", "lacerates", {0}}},
+    
+  {"The plague rat is a sickening specimen, in the process of succumbing to whatever foulness lies fallow in this loathesome place.",
+    "gnawing at", "Eating",
+    {"scratches", "bites", "crawls over", "climbs on", {0}}},
+	{"These notorious birds can't resist relieving passing adventurers of their shiny objects.",
+		"pecking", "Pecking",
+		{"pecks", "claws", "scratches", {0}}},
+	{"This innocuous swarm of flies will drain the blood from the unwary in minutes.  Attacking will only stir them up.",
+		"festering in", "Devouring",
+		{"drains", "bites", "swarms", {0}}},
+  {"This horrifying humanoid lumbers aimlessly.  It may have once been a goblin or perhaps an adventurer, but now a fungal infestation covers its body.  A cloud of toxic spores is released from its body upon death.",
+    "examining", "Examining",
+    {"strikes", "launches spores at", "grabs", {0}}},
+  {"This disturbing creature crawls along on all fours, covered by a veritable forest of luminescent fungi.  A cloud of toxic spores is released from its body upon death.",
+    "examining", "Examining",
+    {"claws", "launches spores at", "bites", {0}}},
+  {"This monstrous crustacean crawls slowly through shallow pools, ravenously biding its time for some unsuspecting meal to set foot in the water.",
+    "crawling over", "Crawling over",
+    {"slimes", "bites", {0}}},
+  {"This enormous gastropod is consumed by a raging inferno.  Despite this, it crawls along in a nonchalant manner, as if it were completely oblivious of the situation.",
+    "crawling over", "Crawling over",
+    {"slimes", "spits fire at", "bites", {0}}},
+  {"This amorphous blob of an unknown substance corrupts all that it touches, twisting flesh into hideous new forms.",
+		"absorbing", "Feeding on",
+  {"smears", "slimes", "drenches", {0}}},
+    
 };
 
 #pragma mark Mutation definitions
@@ -1964,13 +2009,11 @@ const hordeType hordeCatalog[NUMBER_HORDES] = {
 	// leader		#members	member list								member numbers					minL	maxL	freq	spawnsIn		machine			flags
 	{MK_RAT,			0,		{0},									{{0}},							1,		5,		15},
 	{MK_RAT,			0,		{MK_RAT},									{{1,5,3}},							2,		8,		15},
-	{MK_PLAGUE_RAT,			0,		{MK_PLAGUE_RAT, MK_RAT},									{{1, 5, 3}, {0,2,1}},							3,		10,		5},
 	{MK_KOBOLD,			0,		{0},									{{0}},							1,		6,		15},
 	{MK_JACKAL,			0,		{0},									{{0}},							1,		3,		10},
 	{MK_JACKAL,			1,		{MK_JACKAL},							{{1, 3, 1}},					3,		7,		5},
 	{MK_EEL,			0,		{0},									{{0}},							2,		17,		10,		DEEP_WATER},
 	{MK_MONKEY,			0,		{0},									{{0}},							2,		9,		5},
-	{MK_MAGPIE,			0,		{0},									{{0}},							1,		5,		3},
 	{MK_BLOAT,			0,		{0},									{{0}},							2,		13,		3},
 	{MK_PIT_BLOAT,		0,		{0},									{{0}},							2,		13,		1},
 	{MK_BLOAT,			1,		{MK_BLOAT},								{{0, 2, 1}},					14,		26,		3},
@@ -1985,8 +2028,6 @@ const hordeType hordeCatalog[NUMBER_HORDES] = {
 	{MK_MONKEY,			1,		{MK_MONKEY},							{{2,4,1}},						5,		13,		2},
 	{MK_VAMPIRE_BAT,	0,		{0},                                    {{0}},                          6,		13,		3},
 	{MK_VAMPIRE_BAT,	1,		{MK_VAMPIRE_BAT},						{{1,2,1}},						6,		13,		7,      0,              0,              HORDE_NEVER_OOD},
-	{MK_SWARM_FLIES,	0,		{0},                                    {{0}},                          7,		14,		4},
-	{MK_SWARM_FLIES,	1,		{MK_SWARM_FLIES},						{{1,3,1}},						8,		16,		4,      0,              0,              HORDE_NEVER_OOD},
 	{MK_ACID_MOUND,		0,		{0},									{{0}},							6,		13,		10},
 	{MK_GOBLIN,			3,		{MK_GOBLIN, MK_GOBLIN_MYSTIC, MK_JACKAL},{{2, 3, 1}, {1,2,1}, {1,2,1}},	6,		12,		4},
 	{MK_GOBLIN_CONJURER,2,		{MK_GOBLIN_CONJURER, MK_GOBLIN_MYSTIC},	{{0,1,1}, {1,1,1}},				7,		15,		4},
@@ -2160,6 +2201,24 @@ const hordeType hordeCatalog[NUMBER_HORDES] = {
 	{MK_GOBLIN_CONJURER,2,		{MK_GOBLIN_CONJURER, MK_GOBLIN_MYSTIC},	{{0,1,1}, {1,1,1}},				7,		15,		4,      0,              0,              HORDE_MACHINE_GOBLIN_WARREN},
 	{MK_GOBLIN_TOTEM,	4,		{MK_GOBLIN_TOTEM, MK_GOBLIN_CONJURER, MK_GOBLIN_MYSTIC, MK_GOBLIN}, {{1,2,1},{1,2,1},{1,2,1},{3,5,1}},10,17,8,0,MT_CAMP_AREA,	HORDE_MACHINE_GOBLIN_WARREN},
 	{MK_GOBLIN,			1,		{MK_GOBLIN},							{{1, 2, 1}},					3,		7,		1,		0,              0,				HORDE_MACHINE_GOBLIN_WARREN | HORDE_LEADER_CAPTIVE},
+
+  //Expansion:
+  	// leader		#members	member list								member numbers					minL	maxL	freq	spawnsIn		machine			flags
+  
+#define EXPTEST 100
+  
+  {MK_PLAGUE_RAT,			2,		{MK_PLAGUE_RAT, MK_RAT},									{{1, 5, 2}, {0,2,1}},							3,		10,		EXPTEST + 5},
+	{MK_MAGPIE,			0,		{0},									{{0}},							1,		5,		EXPTEST + 3},
+	{MK_SWARM_FLIES,	0,		{0},                                    {{0}},                          7,		14,		EXPTEST + 4},
+	{MK_SWARM_FLIES,	1,		{MK_SWARM_FLIES},						{{1,3,1}},						8,		15,		EXPTEST + 4,      0,              0,              HORDE_NEVER_OOD},
+  {MK_SPOREWALKER,  0, {0}, {{0}}, 10, 18, EXPTEST + 2},
+  {MK_SPORECRAWLER,  0, {0}, {{0}}, 10, 18, EXPTEST + 2},
+  {MK_SPOREWALKER,  2, {MK_SPOREWALKER, MK_SPORECRAWLER}, {{0,1,1}, {0,3,1}}, 10, 18, EXPTEST + 4, 0, 0, HORDE_NEVER_OOD},
+  {MK_GOBLIN,  2, {MK_SPOREWALKER, MK_SPORECRAWLER}, {{1,2,1}, {0,3,1}}, 10, EXPTEST + 8, 4, 0, 0, (HORDE_NEVER_OOD | HORDE_LEADER_CAPTIVE)},
+  {MK_SNAIL, 0, {0}, {{0}}, 7, 15, EXPTEST + 10},
+  {MK_FIRE_SNAIL, 0, {0}, {{0}}, 8, 16, 110},
+  {MK_MUTAGEN_JELLY,		0,		{0},									{{0}},							14,		DEEPEST_LEVEL,		EXPTEST + 10},
+
 };
 
 #pragma mark Monster class definitions
@@ -2168,16 +2227,16 @@ const monsterClass monsterClassCatalog[MONSTER_CLASS_COUNT] = {
     // name             frequency   maxDepth    member list
     {"abomination",     10,         -1,         {MK_BOG_MONSTER, MK_UNDERWORM, MK_KRAKEN, MK_TENTACLE_HORROR}},
     {"dar",             10,         22,         {MK_DAR_BLADEMASTER, MK_DAR_PRIESTESS, MK_DAR_BATTLEMAGE}},
-    {"animal",          10,         10,         {MK_RAT, MK_PLAGUE_RAT, MK_MONKEY, MK_MAGPIE, MK_JACKAL, MK_EEL, MK_TOAD, MK_VAMPIRE_BAT, MK_SWARM_FLIES, MK_CENTIPEDE, MK_SPIDER}},
+    {"animal",          10,         10,         {MK_RAT, MK_PLAGUE_RAT, MK_MONKEY, MK_MAGPIE, MK_JACKAL, MK_EEL, MK_TOAD, MK_VAMPIRE_BAT, MK_SWARM_FLIES, MK_CENTIPEDE, MK_SPIDER, MK_SNAIL, MK_FIRE_SNAIL}},
     {"goblin",          10,         10,         {MK_GOBLIN, MK_GOBLIN_CONJURER, MK_GOBLIN_MYSTIC, MK_GOBLIN_TOTEM, MK_GOBLIN_CHIEFTAN}},
     {"ogre",            10,         16,         {MK_OGRE, MK_OGRE_SHAMAN, MK_OGRE_TOTEM}},
     {"dragon",          10,         -1,         {MK_DRAGON}},
     {"undead",          10,         -1,         {MK_ZOMBIE, MK_WRAITH, MK_VAMPIRE, MK_PHANTOM, MK_LICH, MK_REVENANT}},
-    {"jelly",           10,         15,         {MK_PINK_JELLY, MK_BLACK_JELLY, MK_ACID_JELLY}},
+    {"jelly",           10,         15,         {MK_PINK_JELLY, MK_BLACK_JELLY, MK_ACID_JELLY, MK_MUTAGEN_JELLY}},
     {"turret",          5,          18,         {MK_ARROW_TURRET, MK_SPARK_TURRET, MK_DART_TURRET, MK_FLAME_TURRET}},
     {"infernal",        10,         -1,         {MK_FLAMEDANCER, MK_IMP, MK_REVENANT, MK_FURY, MK_PHANTOM}},
     {"waterborne",      10,         17,         {MK_EEL, MK_NAGA, MK_KRAKEN}},
-    {"fireborne",       10,         12,         {MK_WILL_O_THE_WISP, MK_SALAMANDER, MK_FLAMEDANCER}},
+    {"fireborne",       10,         12,         {MK_WILL_O_THE_WISP, MK_SALAMANDER, MK_FLAMEDANCER, MK_FIRE_SNAIL}},
     {"troll",           10,         15,         {MK_TROLL}},
 };
 

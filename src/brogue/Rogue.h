@@ -915,12 +915,10 @@ enum scrollKind {
 enum monsterTypes {
 	MK_YOU,
 	MK_RAT,
-	MK_PLAGUE_RAT,
 	MK_KOBOLD,
 	MK_JACKAL,
 	MK_EEL,
 	MK_MONKEY,
-  MK_MAGPIE,
 	MK_BLOAT,
 	MK_PIT_BLOAT,
 	MK_GOBLIN,
@@ -930,7 +928,6 @@ enum monsterTypes {
 	MK_PINK_JELLY,
 	MK_TOAD,
 	MK_VAMPIRE_BAT,
-	MK_SWARM_FLIES,
 	MK_ARROW_TURRET,
 	MK_ACID_MOUND,
 	MK_CENTIPEDE,
@@ -989,12 +986,21 @@ enum monsterTypes {
 	MK_PHOENIX_EGG,
     MK_ANCIENT_SPIRIT,
 	
+  MK_PLAGUE_RAT,
+  MK_MAGPIE,
+	MK_SWARM_FLIES,
+  MK_SPOREWALKER,
+  MK_SPORECRAWLER,
+  MK_SNAIL,
+  MK_FIRE_SNAIL,
+  MK_MUTAGEN_JELLY,
+  
 	NUMBER_MONSTER_KINDS
 };
 
 #define NUMBER_MUTATORS             8
 
-#define	NUMBER_HORDES				173
+#define	NUMBER_HORDES				(169 + 11)
 
 #define MONSTER_CLASS_COUNT         13
 
@@ -2006,8 +2012,8 @@ enum monsterAbilityFlags {
 	MA_KAMIKAZE						= Fl(9),	// monster dies instead of attacking
 	MA_TRANSFERENCE					= Fl(10),	// monster recovers 40 or 90% of the damage that it inflicts as health
 	MA_CAUSES_WEAKNESS				= Fl(11),	// monster attacks cause weakness status in target
-    MA_ATTACKS_PENETRATE            = Fl(12),   // monster attacks all adjacent enemies, like an axe
-    MA_ATTACKS_ALL_ADJACENT         = Fl(13),   // monster attacks penetrate one layer of enemies, like a spear
+    MA_ATTACKS_PENETRATE            = Fl(12),   // monster attacks penetrate one layer of enemies, like a spear
+    MA_ATTACKS_ALL_ADJACENT         = Fl(13),   // monster attacks all adjacent enemies, like an axe
     MA_ATTACKS_EXTEND               = Fl(14),   // monster attacks from a distance in a cardinal direction, like a whip
     MA_AVOID_CORRIDORS              = Fl(15),   // monster will avoid corridors when hunting
 	
