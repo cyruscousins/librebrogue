@@ -431,7 +431,6 @@ void initializeRogue(unsigned long seed) {
 	//Class code
 	characterClass = rand_range(0, classCount);
   printf("Seed %d, Class %d\n", (int)previousGameSeed, (int)classCount);
-  characterClass = 2;
   
 	//All classes get a ration
 	theItem = generateItem(FOOD, RATION);

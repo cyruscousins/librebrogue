@@ -2168,7 +2168,7 @@ const monsterClass monsterClassCatalog[MONSTER_CLASS_COUNT] = {
     // name             frequency   maxDepth    member list
     {"abomination",     10,         -1,         {MK_BOG_MONSTER, MK_UNDERWORM, MK_KRAKEN, MK_TENTACLE_HORROR}},
     {"dar",             10,         22,         {MK_DAR_BLADEMASTER, MK_DAR_PRIESTESS, MK_DAR_BATTLEMAGE}},
-    {"animal",          10,         10,         {MK_RAT, MK_PLAGUE_RAT, MK_MONKEY, MK_MOCKING_BIRD, MK_JACKAL, MK_EEL, MK_TOAD, MK_VAMPIRE_BAT, MK_SWARM_FLIES, MK_CENTIPEDE, MK_SPIDER}},
+    {"animal",          10,         10,         {MK_RAT, MK_PLAGUE_RAT, MK_MONKEY, MK_MAGPIE, MK_JACKAL, MK_EEL, MK_TOAD, MK_VAMPIRE_BAT, MK_SWARM_FLIES, MK_CENTIPEDE, MK_SPIDER}},
     {"goblin",          10,         10,         {MK_GOBLIN, MK_GOBLIN_CONJURER, MK_GOBLIN_MYSTIC, MK_GOBLIN_TOTEM, MK_GOBLIN_CHIEFTAN}},
     {"ogre",            10,         16,         {MK_OGRE, MK_OGRE_SHAMAN, MK_OGRE_TOTEM}},
     {"dragon",          10,         -1,         {MK_DRAGON}},
