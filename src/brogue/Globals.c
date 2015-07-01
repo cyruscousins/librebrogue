@@ -1698,13 +1698,15 @@ creatureType monsterCatalog[NUMBER_MONSTER_KINDS] = {
   {0, "plague rat",			'r',	&darkGreen,			5,		0,		80,		{1, 4, 1},		20,	100,	100,	DF_PURPLE_BLOOD,	0,		1,		DF_URINE,       {0}, (0), ( MA_POISONS)},
   {0,	"magpie",		'm',	&gray,		4,		5,		100,	{1, 2, 1},		20,	67,	100,	DF_RED_BLOOD,	0,		0,    0,       {0},
 		(MONST_CARRY_ITEM_25 | MONST_FLIES | MONST_FLITS | MONST_FLEES_NEAR_DEATH | MONST_MALE | MONST_FEMALE), (MA_HIT_STEAL_FLEE)}, //TODO no opening doors, magpies are mobile enough.
-  {0, "pestilent swarm",			'~' + 3,	&darkRed,			15,		25,		100,		{1, 5, 1},		35,	50,	75,	0,	0,		0,  0,       {0}, (MONST_FLITS | MONST_FLIES), (MA_CLONE_SELF_ON_DEFEND | MA_TRANSFERENCE)}, //TODO name character properly.  TODO pluralization
-  {0, "sporewalker", THETA_CHAR + 16, &gray, 50, 50, 80, {3, 5, 1}, 1, 200, 100, DF_POISON_GAS_CLOUD, FUNGUS_LIGHT, 20, DF_LUMINESCENT_FUNGUS, {0}, (MONST_CARRY_ITEM_25 | MONST_NEVER_SLEEPS | MONST_FLITS), (MA_SEIZES | MA_DF_ON_DEATH)},
-  {0, "sporecrawler", THETA_CHAR + 16, &red, 45, 50, 80, {3, 5, 1}, 1, 100, 100, DF_POISON_GAS_CLOUD, FUNGUS_LIGHT, 15, DF_LUMINESCENT_FUNGUS, {0}, (MONST_NEVER_SLEEPS | MONST_FLITS), (MA_DF_ON_DEATH)},
-  {0, "carnivorous snail", '@', &brown, 40, 65, 90, {3, 6, 2}, 20, 200, 100, 0 /* DF_SHELL */, 0, 0 /* 100 */, 0 /* DF_SLIME */, {0}, (MONST_RESTRICTED_TO_LIQUID | MONST_SUBMERGES | MONST_IMMUNE_TO_WATER), (0)}, //TODO, shell, slime //TODO trait for aggressive monster that attacks other monsters. //TODO snails generate outside of water?
+  {0, "pestilent swarm",			'~' + 3,	&veryDarkGray,			15,		25,		100,		{1, 5, 1},		35,	50,	75,	0,	0,		0,  0,       {0}, (MONST_FLITS | MONST_FLIES), (MA_CLONE_SELF_ON_DEFEND | MA_TRANSFERENCE)}, //TODO name character properly.  TODO pluralization
+  {0, "sporewalker", 'S', &gray, 50, 50, 80, {3, 5, 1}, 1, 200, 100, DF_POISON_GAS_CLOUD_POTION, FUNGUS_LIGHT, 20, DF_LUMINESCENT_FUNGUS, {0}, (MONST_CARRY_ITEM_25 | MONST_NEVER_SLEEPS | MONST_FLITS), (MA_SEIZES | MA_DF_ON_DEATH)},
+  {0, "sporecrawler", 'S', &brown, 45, 50, 80, {3, 5, 1}, 1, 100, 100, DF_POISON_GAS_CLOUD_POTION, FUNGUS_LIGHT, 15, DF_LUMINESCENT_FUNGUS, {0}, (MONST_NEVER_SLEEPS | MONST_FLITS), (MA_DF_ON_DEATH)},
+  {0, "carnivorous snail", '@', &brown, 40, 65, 90, {3, 6, 2}, 20, 200, 100, 0 /* DF_SHELL */, 0, 0 /* 100 */, 0 /* DF_SLIME */, {0}, (MONST_SUBMERGES | MONST_IMMUNE_TO_WATER), (0)}, //TODO, shell, slime //TODO trait for aggressive monster that attacks other monsters. //TODO snails generate outside of water?
   {0, "flaming snail", '@', &red, 40, 65, 80, {3, 7, 1}, 20, 200, 100, 0 /* DF_SHELL */, FIRE_LIGHT, 15, DF_PLAIN_FIRE, {0}, (MONST_IMMUNE_TO_FIRE | MONST_FIERY), (0)}, //TODO snail deserves its own light source //TODO snail should burn attackers and defenders.
-  {0, "mutagen jelly", 'J', &rainbow, 50, 50, 80, {5, 16, 2}, 10, 100, 100, (DF_MUTATION_EXPLOSION), 0, 15, (DF_PURPLE_BLOOD), {0}, (MONST_FLITS), (MA_CAUSES_WEAKNESS | MA_NEVER_MUTATED)}, //TODO the mutagen jelly deserves its own color. Blood should be slime
-  
+  {0, "mutagen jelly", 'J', &rainbow, 50, 50, 80, {5, 16, 2}, 10, 100, 100, (DF_MUTATION_EXPLOSION), 0, 15, (DF_PURPLE_BLOOD), {0}, (MONST_FLITS), (MA_CAUSES_WEAKNESS | MA_NEVER_MUTATED)}, //TODO the mutagen jelly deserves its own color. Blood should be slime.  Mutation could be accomplished with a bolt.
+  {0, "ravenous flytrap", 'T', &darkGreen, 60, 45, 100, {7, 18, 3}, 1, 100, 100, (DF_FOLIAGE_REGROW), 0, 5, DF_LICHEN_GROW, {BOLT_POISON, 0}, (MONST_NEVER_SLEEPS | MONST_IMMOBILE | MONST_CAST_SPELLS_SLOWLY | MONST_NO_POLYMORPH | MONST_FEMALE), (MA_ATTACKS_ALL_ADJACENT | MA_ATTACKS_PENETRATE | MA_POISONS | MA_TRANSFERENCE | MA_POISONS | MA_SEIZES)}, //TODO this monster could be a boss. //TODO use a folliage char? //TODO is a regrowing plant dispensed upon death, and lichen upon striking?
+    //Snails are: invincible, immobile, should be allowed on land (but start in water).  Magpies shouldn't be flying while they sleep.  Check status effects + sweet nectar.  -
+  //Spore crawlers emit the wrong type of gas
   //Invisible man?
   
   /*
@@ -1981,6 +1983,9 @@ const monsterWords monsterText[NUMBER_MONSTER_KINDS] = {
   {"This amorphous blob of an unknown substance corrupts all that it touches, twisting flesh into hideous new forms.",
 		"absorbing", "Feeding on",
   {"smears", "slimes", "drenches", {0}}},
+  {"Attacking with a veritable army of grasping poisonous tendrils in close quarters and ejecting globs of poison from afar, the ravenous flytrap is a deadly foe at any range.  These vicious sprouts are often planted to protect great stores.",
+		"absorbing", "Absorbing",
+  {"grasps", "curls biting roots around", "entraps", "traps"}},
     
 };
 
@@ -2215,11 +2220,13 @@ const hordeType hordeCatalog[NUMBER_HORDES] = {
   {MK_SPOREWALKER,  0, {0}, {{0}}, 10, 18, EXPTEST + 2},
   {MK_SPORECRAWLER,  0, {0}, {{0}}, 10, 18, EXPTEST + 2},
   {MK_SPOREWALKER,  2, {MK_SPOREWALKER, MK_SPORECRAWLER}, {{0,1,1}, {0,3,1}}, 10, 18, EXPTEST + 4, 0, 0, HORDE_NEVER_OOD},
-  {MK_GOBLIN,  2, {MK_SPOREWALKER, MK_SPORECRAWLER}, {{1,2,1}, {0,3,1}}, 10, EXPTEST + 8, 4, 0, 0, (HORDE_NEVER_OOD | HORDE_LEADER_CAPTIVE)},
-  {MK_SNAIL, 0, {0}, {{0}}, 7, 15, EXPTEST + 10},
+  {MK_GOBLIN,  2, {MK_SPOREWALKER, MK_SPORECRAWLER}, {{1,2,1}, {0,3,1}}, 10, 18, EXPTEST + 4, 0, 0, (HORDE_NEVER_OOD | HORDE_LEADER_CAPTIVE)}, //TODO a goblin isn't interesting prey at level 10.  Pick something tougher.
+  {MK_SNAIL, 0, {0}, {{0}}, 7, 15, EXPTEST + 10, SHALLOW_WATER},
   {MK_FIRE_SNAIL, 0, {0}, {{0}}, 8, 16, 110},
   {MK_MUTAGEN_JELLY,		0,		{0},									{{0}},							14,		DEEPEST_LEVEL,		EXPTEST + 10},
-
+  
+  {MK_FLYTRAP,	0,		{0},									{{0}},							10,		DEEPEST_LEVEL,	5,  0,		0,					HORDE_MACHINE_BOSS},
+  {MK_FLYTRAP,	1,		{MK_FLYTRAP},									{{1,2,1}},							15,		DEEPEST_LEVEL,	5,  0,		0,					HORDE_MACHINE_BOSS},
 };
 
 #pragma mark Monster class definitions
@@ -2365,14 +2372,20 @@ const char itemGemsRef[NUMBER_ITEM_GEMS][30] = {
 
 #pragma mark Item definitions
 
-//typedef struct itemTable {
-//	char *name;
-//	char *flavor;
-//	short frequency;
-//	short marketValue;
-//	short number;
-//	randomRange range;
-//} itemTable;
+/*
+typedef struct itemTable {
+	char *name;
+	char *flavor;
+	char callTitle[30];
+	short frequency;
+	short marketValue;
+	short strengthRequired;
+	randomRange range;
+	boolean identified;
+	boolean called;
+	char description[1500];
+} itemTable;
+ */
 
 const itemTable keyTable[NUMBER_KEY_TYPES] = {
 	{"door key",			"", "", 1, 0,	0, {0,0,0}, true, false, "The notches on this ancient iron key are well worn; its leather lanyard is battered by age. What door might it open?"},
@@ -2411,7 +2424,7 @@ const itemTable weaponTable[NUMBER_WEAPON_KINDS] = {
 	{"javelin",				"", "",	10, 40,			15,	{3, 11, 3},		true, false, "This length of metal is weighted to keep the spike at its tip foremost as it sails through the air."},
   
 	{"club",				"", "", EXPTEST + 5, 20,		13,	{2,	4, 1},		true, false, "A crude club hewn from a single branch of a heavy wood.  The club shows heavy wear, and may break at any moment."},
-	{"crystal sword",				"", "", EXPTEST + 5, 1500,		15,	{20, 35, 1},		true, false, "The blade of this crystal sword shimmers in the darkness.  It is surprisingly light for a blade of its size, though the weapon is far from weightless.  You worry that the blade may break with repeated use."},
+	{"crystal sword",				"", "", EXPTEST + 5, 1500,		15,	{15, 33, 1},		true, false, "The blade of this crystal sword shimmers in the darkness.  It is surprisingly light for a blade of its size, though the weapon is far from weightless.  As powerful as it is, you worry that the blade may break with repeated use."},
 };
 
 const itemTable armorTable[NUMBER_ARMOR_KINDS] = {

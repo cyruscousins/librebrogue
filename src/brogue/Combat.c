@@ -1097,12 +1097,10 @@ boolean attack(creature *attacker, creature *defender, boolean lungeAttack) {
     char* weaponName;
     if(attacker == &player && rogue.weapon && rogue.weapon->flags & ITEM_FRAGILE) {
       short shatterProb;
-      if(rogue.weapon->enchant1 < 0){
-        shatterProb = 75;
-      } else if(rogue.weapon->kind == CLUB) {
+      if(rogue.weapon->kind == CLUB) {
         shatterProb = 50;
       } else {
-        shatterProb = 100 * (1 + rogue.weapon->enchant1);
+        shatterProb = 100 + 50 * (1 + rogue.weapon->enchant1);
       }
       short value = rand_range(0, shatterProb);
       if(value <= 0){
@@ -1111,10 +1109,16 @@ boolean attack(creature *attacker, creature *defender, boolean lungeAttack) {
         weaponName = weaponTable[rogue.weapon->kind].name;
         player.currentHP = player.currentHP / 2 + 1; //TODO figure out a good semantics for shattered weapon damage.  Perhaps stun as well?
         
+        //Animation
+        colorFlash(&gray, 0, IN_FIELD_OF_VIEW, 3, 3, player.xLoc, player.yLoc);
+      
+        //Remove item from existence
         //I believe this is correct, as an item is both in the pack and specially equipped.
         unequipItem(rogue.weapon, true);
         removeItemFromChain(rogue.weapon, packItems);
     		deleteItem(rogue.weapon);
+        
+        
       }
     }
 		

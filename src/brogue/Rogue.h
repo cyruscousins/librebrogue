@@ -994,13 +994,14 @@ enum monsterTypes {
   MK_SNAIL,
   MK_FIRE_SNAIL,
   MK_MUTAGEN_JELLY,
+  MK_FLYTRAP,
   
 	NUMBER_MONSTER_KINDS
 };
 
 #define NUMBER_MUTATORS             8
 
-#define	NUMBER_HORDES				(169 + 11)
+#define	NUMBER_HORDES				(169 + 13)
 
 #define MONSTER_CLASS_COUNT         13
 

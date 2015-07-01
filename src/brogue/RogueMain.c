@@ -698,8 +698,16 @@ void initializeRogue(unsigned long seed) {
       //Should have a smaller pack size.
       //Need a constant in rogue equal to MAX_PACK_ITEMS, but less for this character.
 	}
+  
+  //Demigod mode
+  if(false){
+    rogue.strength += 5;
+    player.currentHP = player.info.maxHP += 50;
+  }
+
 	
-	//Planned features:  Additional classes
+  
+	//Planned features:
 	/*
   Dice:
   When thrown, they have a random effect.  Lucky dice (enchanted) may roll a bit extra if they were about to be unlucky.
@@ -717,14 +725,6 @@ void initializeRogue(unsigned long seed) {
 	Monsters:
   Medusa: Found in a stone garden, surrounded by a collection of petrified creatures, the medusa has a chance to petrify nearby creatures on sight.  Consequently, the stone garden will awaken soon after the medusa is killed.  Pluralization: medusae
   Icewalker: Chance to freeze on attacks.  Freezes water as it walks, and thus can walk over water.  Slow.  Weak to fire.
-  Sporewalker:  An adventurer that has succumbed to a hiddeous fungal growth.  Found in mushroom gardens.  Turns allies into fungal slaves upon death.  DF_LUMINESCENT_FUNGUS
-  Sporecrawler:  What was once an animal is now a horrifying testament to the dark forces that lurk beneath the ground.  Fungal caps grow from the creatures flesh, and the scent of rotting flesh mixed with fungal spores hits you from a mile away.  Perhaps; release caustic gas upon death, drop caps as walk
-  
-  There's room to do much more with the DF drops.  Draft ideas:
-  Slow plant creature, leaves behind poison plant, keeps distance.
-  Something using gasses.
-  
-  
   
   Follower: A unique curse monster that follows the Accursed One.  It moves slowly, and attacks even more slowly (though with devastating strength).  It can't be killed, only sent back to the previous stairwell, and each "death" doubles its strength.
   	
@@ -738,6 +738,10 @@ void initializeRogue(unsigned long seed) {
    Paralysis darts: either a separate item, or give poison darts a small paralysis time.
    
    It might be interesting to make breakability a bad runic effect.  Crystal swords should also not be curseable, both to make them a more interesting weapon and to prevent a bad runic clash.
+  
+  Weapon bad runics:
+   Weapons can shatter.  Can we make this dynamic (enchant to repair, left with weapon fragment)?
+  
 	
 	*/
 	
