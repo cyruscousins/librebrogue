@@ -947,6 +947,7 @@ boolean summonMinions(creature *summoner) {
 		monsterName(monstName, summoner, true);
 		if (monsterText[summoner->info.monsterID].summonMessage) {
 			sprintf(buf, "%s %s", monstName, monsterText[summoner->info.monsterID].summonMessage);
+      resolvePronounEscapes(buf, summoner);
 		} else {
 			sprintf(buf, "%s incants darkly!", monstName);
 		}

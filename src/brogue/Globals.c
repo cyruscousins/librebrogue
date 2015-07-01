@@ -1697,16 +1697,22 @@ creatureType monsterCatalog[NUMBER_MONSTER_KINDS] = {
     
   {0, "plague rat",			'r',	&darkGreen,			5,		0,		80,		{1, 4, 1},		20,	100,	100,	DF_PURPLE_BLOOD,	0,		1,		DF_URINE,       {0}, (0), ( MA_POISONS)},
   {0,	"magpie",		'm',	&gray,		4,		5,		100,	{1, 2, 1},		20,	67,	100,	DF_RED_BLOOD,	0,		0,    0,       {0},
-		(MONST_CARRY_ITEM_25 | MONST_FLIES | MONST_FLITS | MONST_FLEES_NEAR_DEATH | MONST_MALE | MONST_FEMALE), (MA_HIT_STEAL_FLEE)}, //TODO no opening doors, magpies are mobile enough.
-  {0, "pestilent swarm",			'~' + 3,	&veryDarkGray,			15,		25,		100,		{1, 5, 1},		35,	50,	75,	0,	0,		0,  0,       {0}, (MONST_FLITS | MONST_FLIES), (MA_CLONE_SELF_ON_DEFEND | MA_TRANSFERENCE)}, //TODO name character properly.  TODO pluralization
-  {0, "sporewalker", 'S', &gray, 50, 50, 80, {3, 5, 1}, 1, 200, 100, DF_POISON_GAS_CLOUD_POTION, FUNGUS_LIGHT, 20, DF_LUMINESCENT_FUNGUS, {0}, (MONST_CARRY_ITEM_25 | MONST_NEVER_SLEEPS | MONST_FLITS), (MA_SEIZES | MA_DF_ON_DEATH)},
-  {0, "sporecrawler", 'S', &brown, 45, 50, 80, {3, 5, 1}, 1, 100, 100, DF_POISON_GAS_CLOUD_POTION, FUNGUS_LIGHT, 15, DF_LUMINESCENT_FUNGUS, {0}, (MONST_NEVER_SLEEPS | MONST_FLITS), (MA_DF_ON_DEATH)},
+		(MONST_CARRY_ITEM_25 | MONST_FLIES | MONST_FLITS | MONST_FLEES_NEAR_DEATH | MONST_MALE | MONST_FEMALE), (MA_HIT_STEAL_FLEE)}, //TODO no opening doors, magpies are mobile enough.  Magpies and pestilent swarms are said to be flying even when they are asleep.
+  {0, "pestilent swarm",			'~' + 3,	&veryDarkGray,			15,		25,		100,		{1, 5, 1},		35,	50,	75,	0,	0,		0,  0,       {0}, (MONST_FLITS | MONST_FLIES), (MA_CLONE_SELF_ON_DEFEND | MA_TRANSFERENCE)}, //TODO name character properly.  
+  {0, "sporewalker", 'S', &gray, 50, 50, 80, {3, 5, 1}, 1, 200, 100, DF_LUMINESCENT_FUNGUS, FUNGUS_LIGHT, 10, DF_BLOAT_DEATH, {0}, (MONST_CARRY_ITEM_25 | MONST_NEVER_SLEEPS | MONST_FLITS), (MA_SEIZES | MA_DF_ON_DEATH)}, //TODO should not release poison every time it is hit (only on death). Should be immune to gasses.
+  {0, "sporecrawler", 'S', &brown, 45, 50, 80, {3, 5, 1}, 1, 100, 100, DF_LUMINESCENT_FUNGUS, FUNGUS_LIGHT, 5, DF_BLOAT_DEATH, {0}, (MONST_NEVER_SLEEPS | MONST_FLITS), (MA_DF_ON_DEATH)},
   {0, "carnivorous snail", '@', &brown, 40, 65, 90, {3, 6, 2}, 20, 200, 100, 0 /* DF_SHELL */, 0, 0 /* 100 */, 0 /* DF_SLIME */, {0}, (MONST_SUBMERGES | MONST_IMMUNE_TO_WATER), (0)}, //TODO, shell, slime //TODO trait for aggressive monster that attacks other monsters. //TODO snails generate outside of water?
-  {0, "flaming snail", '@', &red, 40, 65, 80, {3, 7, 1}, 20, 200, 100, 0 /* DF_SHELL */, FIRE_LIGHT, 15, DF_PLAIN_FIRE, {0}, (MONST_IMMUNE_TO_FIRE | MONST_FIERY), (0)}, //TODO snail deserves its own light source //TODO snail should burn attackers and defenders.
-  {0, "mutagen jelly", 'J', &rainbow, 50, 50, 80, {5, 16, 2}, 10, 100, 100, (DF_MUTATION_EXPLOSION), 0, 15, (DF_PURPLE_BLOOD), {0}, (MONST_FLITS), (MA_CAUSES_WEAKNESS | MA_NEVER_MUTATED)}, //TODO the mutagen jelly deserves its own color. Blood should be slime.  Mutation could be accomplished with a bolt.
+  {0, "lava snail", '@', &red, 40, 65, 80, {3, 7, 1}, 20, 200, 100, 0 /* DF_SHELL */, FIRE_LIGHT, 15, DF_PLAIN_FIRE, {0}, (MONST_SUBMERGES | MONST_IMMUNE_TO_FIRE | MONST_FIERY), (0)}, //TODO snail deserves its own light source //TODO snail should burn attackers and defenders.
+  {0, "mutagen jelly", 'J', &rainbow, 50, 50, 80, {5, 16, 2}, 10, 100, 100, (DF_PURPLE_BLOOD), 0, 15, (DF_PURPLE_BLOOD), {BOLT_POISON}, (MONST_FLITS), (MA_CAUSES_WEAKNESS | MA_NEVER_MUTATED)}, //TODO the mutagen jelly deserves its own color. Blood should be slime.  Mutation should be accomplished with a bolt ora gas.
+  
   {0, "ravenous flytrap", 'T', &darkGreen, 60, 45, 100, {7, 18, 3}, 1, 100, 100, (DF_FOLIAGE_REGROW), 0, 5, DF_LICHEN_GROW, {BOLT_POISON, 0}, (MONST_NEVER_SLEEPS | MONST_IMMOBILE | MONST_CAST_SPELLS_SLOWLY | MONST_NO_POLYMORPH | MONST_FEMALE), (MA_ATTACKS_ALL_ADJACENT | MA_ATTACKS_PENETRATE | MA_POISONS | MA_TRANSFERENCE | MA_POISONS | MA_SEIZES)}, //TODO this monster could be a boss. //TODO use a folliage char? //TODO is a regrowing plant dispensed upon death, and lichen upon striking?
-    //Snails are: invincible, immobile, should be allowed on land (but start in water).  Magpies shouldn't be flying while they sleep.  Check status effects + sweet nectar.  -
-  //Spore crawlers emit the wrong type of gas
+  
+  {0, "necromancer", 'N', &brown, 85, 40, 50, {5, 20, 1}, 0, 100, 200, DF_ASH, 0, 5, DF_BONES, {BOLT_POISON, BOLT_FIRE, BOLT_LIGHTNING, BOLT_ENTRANCEMENT, BOLT_DOMINATION, BOLT_EMPOWERMENT}, (MONST_NO_POLYMORPH | MONST_MALE | MONST_FEMALE), (MA_CAST_SUMMON | MA_DF_ON_DEATH)},
+  {0, "corpse god", 'C', &vomitColor, 100, 100, 100, {50, 100, 1}, 0, 200, 200, DF_ROT_GAS_PUFF, 0, 0, DF_HOLE_POTION, {BOLT_DOMINATION, BOLT_POISON}, (MONST_NO_POLYMORPH | MONST_WILL_NOT_USE_STAIRS | MONST_MALE | MONST_FEMALE), (MA_CAST_SUMMON | MA_DF_ON_DEATH | MA_ATTACKS_ALL_ADJACENT)}, //Corpse god should have a light.  Corpse god should have an achievement for killing it.
+  {0, "essence of death", GEM_CHAR, &vomitColor,30,	0,		0,		{0, 0, 0},		0,	100,	100,	DF_DARKNESS_POTION,0,	20,	DF_DARKNESS_POTION,              {BOLT_DOMINATION},
+		(MONST_IMMUNE_TO_WEBS | MONST_NEVER_SLEEPS | MONST_IMMOBILE | MONST_INANIMATE | MONST_ALWAYS_HUNTING | MONST_WILL_NOT_USE_STAIRS | MONST_INVULNERABLE), (MA_CAST_SUMMON | MA_ENTER_SUMMONS)},
+
+  //Basic skeleton (to be raised by necromancer)
   //Invisible man?
   
   /*
@@ -1968,10 +1974,10 @@ const monsterWords monsterText[NUMBER_MONSTER_KINDS] = {
 	{"This innocuous swarm of flies will drain the blood from the unwary in minutes.  Attacking will only stir them up.",
 		"festering in", "Devouring",
 		{"drains", "bites", "swarms", {0}}},
-  {"This horrifying humanoid lumbers aimlessly.  It may have once been a goblin or perhaps an adventurer, but now a fungal infestation covers its body.  A cloud of toxic spores is released from its body upon death.",
+  {"This horrifying humanoid lumbers aimlessly.  It may have once been a goblin or perhaps an adventurer that has succumbed to a hideous fungal growth.  A cloud of toxic spores is released from its body upon death.",
     "examining", "Examining",
     {"strikes", "launches spores at", "grabs", {0}}},
-  {"This disturbing creature crawls along on all fours, covered by a veritable forest of luminescent fungi.  A cloud of toxic spores is released from its body upon death.",
+  {"This disturbing creature crawls along on all fours, covered by a veritable forest of luminescent fungi growing from beneath the flesh.  A cloud of toxic spores is released from its body upon death.",
     "examining", "Examining",
     {"claws", "launches spores at", "bites", {0}}},
   {"This monstrous crustacean crawls slowly through shallow pools, ravenously biding its time for some unsuspecting meal to set foot in the water.",
@@ -1983,10 +1989,25 @@ const monsterWords monsterText[NUMBER_MONSTER_KINDS] = {
   {"This amorphous blob of an unknown substance corrupts all that it touches, twisting flesh into hideous new forms.",
 		"absorbing", "Feeding on",
   {"smears", "slimes", "drenches", {0}}},
+    
   {"Attacking with a veritable army of grasping poisonous tendrils in close quarters and ejecting globs of poison from afar, the ravenous flytrap is a deadly foe at any range.  These vicious sprouts are often planted to protect great stores.",
 		"absorbing", "Absorbing",
   {"grasps", "curls biting roots around", "entraps", "traps"}},
-    
+  
+  {"This vile practitioner of the dark arts has long since shed $HISHER mortality.  From beyond the veil of death $HESHE commands and raises armies of the dead, though with great age, a great tiredness befalls even the dead.",
+		"", "", //Necromancer should raise the dead as allies.
+  {"strikes", {0}},
+  {0},
+  "raises $HISHER arms and calls forth the fallen to do $HISHER bidding!"}, //Necromancer should not use physical attacks
+  {"Floating through time and space, neither alive nor dead, the corpse god has always simply been.  Maggots feast on its corporeal form as it languishes in the darkness.  Only a fool goes looking for trouble.",
+		"", "",
+  {"disintegrates", "corrupts", "glares at", {0}},
+  {0},
+  "shudders grotesquely as once-dead flesh rises to defend $HIMHER."},
+  {"That which does not live can not truly be killed.  Dark energies from outside of time and space swirl through the crystal, but you look away as you begin to see visions dancing within its depths.",
+    "", "",
+  {"hypnotizes", "corrupts", {0}},
+  {0}},          
 };
 
 #pragma mark Mutation definitions
@@ -2194,6 +2215,7 @@ const hordeType hordeCatalog[NUMBER_HORDES] = {
     // key thieves
     {MK_MONKEY,			0,		{0},									{{0}},							1,		14,		10,     0,          0,                  HORDE_MACHINE_THIEF},
     {MK_IMP,			0,		{0},									{{0}},							15,		DEEPEST_LEVEL,	10, 0,      0,                  HORDE_MACHINE_THIEF},
+    //TODO add magpie?
 	
 	// legendary allies
 	{MK_UNICORN,		0,		{0},									{{0}},							1,		DEEPEST_LEVEL,	10, 0,		0,					HORDE_MACHINE_LEGENDARY_ALLY | HORDE_ALLIED_WITH_PLAYER},
@@ -2222,11 +2244,44 @@ const hordeType hordeCatalog[NUMBER_HORDES] = {
   {MK_SPOREWALKER,  2, {MK_SPOREWALKER, MK_SPORECRAWLER}, {{0,1,1}, {0,3,1}}, 10, 18, EXPTEST + 4, 0, 0, HORDE_NEVER_OOD},
   {MK_GOBLIN,  2, {MK_SPOREWALKER, MK_SPORECRAWLER}, {{1,2,1}, {0,3,1}}, 10, 18, EXPTEST + 4, 0, 0, (HORDE_NEVER_OOD | HORDE_LEADER_CAPTIVE)}, //TODO a goblin isn't interesting prey at level 10.  Pick something tougher.
   {MK_SNAIL, 0, {0}, {{0}}, 7, 15, EXPTEST + 10, SHALLOW_WATER},
-  {MK_FIRE_SNAIL, 0, {0}, {{0}}, 8, 16, 110},
+  {MK_FIRE_SNAIL, 0, {0}, {{0}}, 8, 16, EXPTEST + 10, LAVA},
   {MK_MUTAGEN_JELLY,		0,		{0},									{{0}},							14,		DEEPEST_LEVEL,		EXPTEST + 10},
   
-  {MK_FLYTRAP,	0,		{0},									{{0}},							10,		DEEPEST_LEVEL,	5,  0,		0,					HORDE_MACHINE_BOSS},
-  {MK_FLYTRAP,	1,		{MK_FLYTRAP},									{{1,2,1}},							15,		DEEPEST_LEVEL,	5,  0,		0,					HORDE_MACHINE_BOSS},
+  //Bosses:
+  {MK_FLYTRAP,	0,		{0},									{{0}},							1,		DEEPEST_LEVEL,	EXPTEST + 5,  0,		0,					HORDE_MACHINE_BOSS},
+  {MK_FLYTRAP,	1,		{MK_FLYTRAP},									{{1,2,1}},							1,		DEEPEST_LEVEL,	EXPTEST + 5,  0,		0,					HORDE_MACHINE_BOSS},
+
+  {MK_NECROMANCER, 0, {}, {{0}}, 1, AMULET_LEVEL, EXPTEST + 5, 0, 0, HORDE_MACHINE_BOSS},
+  //{MK_DEATH_ESSENCE, 5, {}, {{0}}, 1, DEEPEST_LEVEL, EXPTEST + 5, 0, 0, HORDE_MACHINE_BOSS}, //Death essence "summons" the corpse god.
+  {MK_DEATH_ESSENCE, 5, {}, {{0}}, 1, DEEPEST_LEVEL, EXPTEST * 10 + 5, 0, 0, 0},
+  //Testing code for some boss monsters.
+  
+  /*
+  
+  {MK_FLYTRAP,	0,		{0},									{{0}},							1,		DEEPEST_LEVEL,	EXPTEST * 10 + 5,  0,		0,					0},
+  {MK_FLYTRAP,	1,		{MK_FLYTRAP},									{{1,2,1}},							1,		DEEPEST_LEVEL,	EXPTEST * 10 + 5,  0,		0,					0},
+
+  {MK_NECROMANCER, 0, {}, {{0}}, 1, AMULET_LEVEL, EXPTEST * 10 + 5, 0, 0, 0},
+  {MK_DEATH_ESSENCE, 5, {}, {{0}}, 1, DEEPEST_LEVEL, EXPTEST * 10 + 5, 0, 0, 0},
+  
+   */
+  
+  //Boss summons
+  //Do we want HORDE_DIES_ON_LEADER_DEATH?
+  {MK_NECROMANCER, 1, {MK_VAMPIRE}, {{1,1,1}}, 0, 0, 1, 0, 0, (HORDE_IS_SUMMONED)},
+  {MK_NECROMANCER, 1, {MK_LICH}, {{1,1,1}}, 0, 0, 5, 0, 0, (HORDE_IS_SUMMONED)},
+  {MK_NECROMANCER, 1, {MK_REVENANT}, {{1,1,1}}, 0, 0, 10, 0, 0, (HORDE_IS_SUMMONED)},
+  {MK_NECROMANCER, 1, {MK_ZOMBIE}, {{1,1,1}}, 0, 0, 20, 0, 0, (HORDE_IS_SUMMONED)},
+  {MK_NECROMANCER, 1, {MK_WRAITH}, {{1,1,1}}, 0, 0, 20, 0, 0, (HORDE_IS_SUMMONED)},
+  
+  {MK_CORPSE_GOD, 1, {MK_NECROMANCER}, {{1,1,1}}, 0, 0, 1, 0, 0, (HORDE_IS_SUMMONED)},
+  {MK_CORPSE_GOD, 1, {MK_VAMPIRE}, {{1,1,1}}, 0, 0, 2, 0, 0, (HORDE_IS_SUMMONED)},
+  {MK_CORPSE_GOD, 1, {MK_LICH}, {{1,2,1}}, 0, 0, 5, 0, 0, (HORDE_IS_SUMMONED)},
+  {MK_CORPSE_GOD, 1, {MK_REVENANT}, {{1,2,1}}, 0, 0, 10, 0, 0, (HORDE_IS_SUMMONED)},
+  {MK_CORPSE_GOD, 1, {MK_ZOMBIE}, {{1,3,1}}, 0, 0, 15, 0, 0, (HORDE_IS_SUMMONED)},
+  {MK_CORPSE_GOD, 1, {MK_WRAITH}, {{1,3,1}}, 0, 0, 15, 0, 0, (HORDE_IS_SUMMONED)},
+	{MK_DEATH_ESSENCE,		1,		{MK_CORPSE_GOD},								{{1,1,1}},						0,		0,		10,		0,			0,					HORDE_IS_SUMMONED},
+  
 };
 
 #pragma mark Monster class definitions

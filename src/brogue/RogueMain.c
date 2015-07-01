@@ -700,18 +700,30 @@ void initializeRogue(unsigned long seed) {
 	}
   
   //Demigod mode
-  if(false){
-    rogue.strength += 5;
-    player.currentHP = player.info.maxHP += 50;
+  if(true){
+    rogue.strength *= 4;
+    player.currentHP = player.info.maxHP *= 4;
+    
+    theItem = generateItem(WEAPON, CRYSTAL_SWORD);
+    theItem = addItemToPack(theItem);
+    theItem->enchant1 += 10;
+    equipItem(theItem, true);
   }
-
-	
   
 	//Planned features:
+  
+  //Uniqueness tag for creatures, so bosses can be referred to as "the".
+  
+  //Make noenchant, nocurse be weapon attributes, use to implement club & crystal sword.
+  //Mutagen jelly is totally broken.
+  //Killing the Corpse God is an acheivement.
 	/*
+  
   Dice:
   When thrown, they have a random effect.  Lucky dice (enchanted) may roll a bit extra if they were about to be unlucky.
 
+  Scepter of the Damned: raises undead minions.
+  
 	Status Effects:
 	Frozen: Take damage over time, immobile (no turns), incoming damage is halved (Except maybe concussive damage?), fire damage reduces status duration.
 	Petrified: Incoming damage is quartered.  (Striking dulls weapons?) No movement.
@@ -742,7 +754,14 @@ void initializeRogue(unsigned long seed) {
   Weapon bad runics:
    Weapons can shatter.  Can we make this dynamic (enchant to repair, left with weapon fragment)?
   
+  Refactor status effects.  Move the names to globals, give them attributes, use these for sweet nectar control.
 	
+  //Rooms / Dungeon layouts:
+  Statue maze
+  linear corridor with offshoots.  " <                        >" with rooms above and below.
+  Chasm that requires descent and subsequent ascent.
+  
+  Other: does potion of darkness increase stealth range? 
 	*/
 	
 	/*
